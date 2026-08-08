@@ -21,17 +21,19 @@ A interface deve desaparecer quando não for necessária. O foco visual é o neg
 
 ## 2. Orientação
 
-A V0.1 deve priorizar uma orientação única definida durante o protótipo, evitando manter layouts completos para portrait e landscape simultaneamente.
+A **orientação baseline da V0.1 será portrait (vertical)**.
 
-A escolha deve considerar:
+Motivos:
 
-- visibilidade do estabelecimento;
-- conforto do joystick;
-- leitura de filas;
-- área útil para HUD;
-- referência do gênero.
+- favorece uso com uma mão;
+- combina com joystick virtual e interação automática;
+- aproxima a experiência do padrão casual/idle de referência;
+- oferece leitura longitudinal natural da fila e do fluxo entre negócio e calçadão;
+- facilita sessões rápidas em Android.
 
-A orientação definitiva é decisão de protótipo e playtest.
+O graybox deve validar essa escolha antes de produção artística pesada. Landscape só substitui portrait se o protótipo demonstrar prejuízo claro de gameplay ou visibilidade.
+
+Não manter layouts completos para portrait e landscape simultaneamente na V0.1.
 
 ## 3. Tela inicial
 
@@ -73,6 +75,8 @@ Opções:
 - Peixaria.
 
 Não apresentar planilhas de atributos na primeira escolha.
+
+Em portrait, as opções podem usar cards em grade/scroll vertical, mantendo alvos de toque confortáveis.
 
 ## 5. HUD de gameplay
 
