@@ -18,12 +18,12 @@ Este documento separa decisões oficiais do projeto de ideias ainda exploratóri
 
 - A **orla do Laranjal** é o palco principal da primeira versão.
 - A **Lagoa dos Patos** é a âncora visual da área inicial.
-- O cenário reúne faixa de areia, calçadão, arborização, rua paralela e continuidade urbana.
+- O cenário reúne faixa de areia, calçadão arborizado, rua paralela e continuidade urbana.
 - O primeiro estabelecimento é um **pequeno ponto comercial estruturado**, mais próximo de uma loja compacta de bairro/orla do que de um quiosque improvisado.
 - O ponto fica voltado para o fluxo do calçadão e para a paisagem da Lagoa.
 - A representação busca reconhecimento e coerência, não reprodução cartográfica 1:1.
 - O **Centro Comercial Mar de Dentro** é referência canônica para expansão comercial futura do Laranjal, especialmente varejo e serviços.
-- Marcas e fachadas reais não serão reproduzidas literalmente sem validação/autorização quando necessária.
+- Marcas, fachadas, esculturas e obras visuais reais não serão reproduzidas literalmente sem validação/autorização quando necessária.
 
 ### Negócios iniciais
 
@@ -36,14 +36,18 @@ Este documento separa decisões oficiais do projeto de ideias ainda exploratóri
 
 ### Gameplay
 
+- Portrait é a orientação baseline da V0.1.
 - Controle mobile de um dedo.
 - Interações operacionais por proximidade.
 - O jogador começa executando tarefas manualmente.
 - A automação é conquistada por progressão.
 - Clientes possuem pelo menos estado de espera/paciência.
+- `AmbientPedestrian` e `Customer` são comportamentos logicamente distintos.
 - O primeiro negócio usa atendimento de balcão em todas as categorias na V0.1.
 - Jogador, clientes e funcionário usam fluxos espaciais separados sempre que necessário para manter legibilidade.
 - O negócio cresce fisicamente no mesmo lote por upgrades modulares.
+- Preços da V0.1 são parâmetros data-driven e não são ajustados manualmente pelo jogador.
+- A V0.1 não possui sistema global de reputação empresarial.
 
 ### Progressão
 
@@ -53,14 +57,19 @@ Este documento separa decisões oficiais do projeto de ideias ainda exploratóri
 - A progressão deve ser visualmente perceptível no estabelecimento.
 - O primeiro funcionário é um marco narrativo e mecânico da transição para gestão.
 - A V0.1 deve ser concluível sem grind artificial prolongado.
+- Consolidação do ponto é medida por progresso, upgrades, funcionário, volume de vendas/atendimentos e satisfação operacional calibrados em playtest, não por reputação global.
 
 ### Monetização
 
-- O jogo não será financiado por anúncios invasivos.
+- **Zero ads é canon do produto.**
+- O jogo não terá interstitial, rewarded ad, banner, vídeo publicitário ou SDK de publicidade como modelo de receita.
+- O modelo comercial futuro é free-to-play com compras opcionais dentro do jogo.
 - A V0.1 não terá monetização.
 - Compras futuras serão opcionais.
 - Pay-to-win em rankings competitivos é proibido pelo design atual.
 - Compras futuras devem priorizar personalização, cosméticos e conteúdo visual, sem compra direta de superioridade competitiva.
+- Loot boxes pagas/gacha pago não fazem parte do modelo comercial base.
+- Alterar `zero ads` exige alteração explícita de canon.
 
 ### Representação local
 
@@ -72,13 +81,18 @@ Este documento separa decisões oficiais do projeto de ideias ainda exploratóri
 
 ### Tecnologia
 
-- Unity 6 LTS.
+- Unity 6.3 LTS como família de produção.
+- A versão de patch exata será fixada em `ProjectVersion.txt` no primeiro commit Unity.
 - C#.
 - Android como primeira plataforma.
 - URP.
+- Portrait como baseline.
+- Package/application id: `com.agenciamobi.pelotastycoon`.
+- Android 16/API 36 como target baseline para futura publicação, sujeito a requisito mais recente da Play Store no envio.
 - Save local na V0.1.
 - Supabase é a preferência inicial para backend futuro, mas não integra a V0.1.
 - Arquitetura data-driven para produtos, estações, negócios, diálogos e balanceamento.
+- Nenhum SDK de publicidade conforme o canon comercial.
 
 ## Regras de design
 
@@ -92,6 +106,8 @@ Este documento separa decisões oficiais do projeto de ideias ainda exploratóri
 8. Toda funcionalidade online competitiva futura deve considerar anti-cheat desde o design.
 9. A V0.1 deve privilegiar legibilidade, game feel e performance Android acima de fidelidade visual excessiva.
 10. Toda grande evolução econômica deve produzir alguma consequência perceptível no mundo ou na operação.
+11. Não introduzir anúncios sem alteração formal de canon.
+12. Não introduzir reputação global ou precificação manual na V0.1 sem remover/adiar escopo equivalente e revisar o GDD.
 
 ## Alteração de canon
 
