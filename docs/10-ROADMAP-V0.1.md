@@ -17,19 +17,25 @@ Entregar um APK Android instalável e jogável, ambientado apenas na Praia do La
 - Monetização futura definida.
 - Arquitetura técnica definida.
 - Canon e backlog separados.
+- Revisão cruzada concluída.
 
-**Saída:** PRE-PRODUCTION v1.0.
+**Saída:** `PRE-PRODUCTION v1.0`.
 
 ## Fase 1 — Fundação Unity
 
-- Criar projeto Unity 6 LTS com URP.
+- Criar projeto Unity 6.3 LTS com URP.
+- Fixar patch exato no `ProjectVersion.txt`.
 - Configurar Android Build Support.
-- Definir package name.
+- Definir package name `com.agenciamobi.pelotastycoon`.
+- Configurar portrait como orientação baseline.
+- Configurar Android 16/API 36 como target baseline para publicação futura.
+- Definir `minSdk` após teste da faixa de aparelhos alvo.
 - Criar estrutura de pastas.
 - Criar cenas Boot, MainMenu e Laranjal.
 - Configurar Input System.
 - Configurar controle de versão adequado a Unity.
 - Adicionar Git LFS antes de assets pesados.
+- Não integrar SDK de publicidade.
 
 **Saída:** projeto abre, compila e gera APK vazio funcional.
 
@@ -39,7 +45,7 @@ Usar placeholders geométricos.
 
 - Player com movimento.
 - Câmera.
-- Joystick virtual.
+- Joystick virtual portrait.
 - Source Station.
 - Processor Station.
 - Counter Station.
@@ -61,6 +67,7 @@ Usar placeholders geométricos.
 - UpgradeDefinition.
 - Seleção de negócio.
 - Adaptação automática de produtos, estações e falas.
+- Preços-base definidos nos dados, sem precificação manual pelo jogador.
 
 **Teste obrigatório:** trocar Pastelaria por Pizzaria sem alterar código do core loop.
 
@@ -73,6 +80,8 @@ Usar placeholders geométricos.
 - Capacidade/velocidade configuráveis.
 - Satisfação/paciência básica.
 
+Não implementar reputação global na V0.1.
+
 ## Fase 5 — Save local
 
 - SaveData versionado.
@@ -84,15 +93,18 @@ Usar placeholders geométricos.
 
 ## Fase 6 — Laranjal visual
 
-- Água/lagoa.
+- Água/Lagoa dos Patos.
 - Areia.
-- Calçadão.
+- Calçadão arborizado.
 - Vegetação.
 - Ponto comercial modular.
+- Rua/estacionamento e continuidade urbana simplificada.
+- Marco `Laranjal` em interpretação própria quando viável.
 - Edificações de apoio.
 - Céu e iluminação.
 - Ambientação sonora.
 - NPCs visuais low-poly.
+- `AmbientPedestrian` simples circulando independentemente dos clientes.
 
 ## Fase 7 — Game feel
 
@@ -112,6 +124,7 @@ Usar placeholders geométricos.
 - Revisão de iluminação.
 - Revisão de NavMesh.
 - Redução de GC spikes.
+- Revisão de safe areas em portrait.
 - Meta mínima: 30 FPS estáveis em aparelho intermediário de teste.
 
 ## Fase 9 — APK V0.1
@@ -119,10 +132,12 @@ Usar placeholders geométricos.
 Checklist:
 
 - [ ] Menu abre corretamente.
+- [ ] Orientação portrait funciona corretamente.
 - [ ] Jogador escolhe um dos seis negócios.
 - [ ] Laranjal carrega.
 - [ ] Player se movimenta por joystick.
 - [ ] Clientes chegam e formam fila.
+- [ ] Pedestres ambientais circulam sem obrigação de comprar.
 - [ ] Pedidos correspondem ao negócio escolhido.
 - [ ] Produção funciona.
 - [ ] Entrega funciona.
@@ -145,6 +160,9 @@ Checklist:
 - Amigos.
 - Visitas online.
 - Compras in-app.
+- Publicidade e SDK de ads.
+- Precificação manual.
+- Reputação global.
 - Outras regiões.
 - Multiplayer em tempo real.
 - Serviço de mesa complexo.
