@@ -32,10 +32,13 @@ A experiência combina:
 
 ## 3. Controle
 
+- Portrait como orientação baseline da V0.1.
 - Joystick virtual.
 - Um dedo.
 - Interações por proximidade/trigger.
 - Sem botões separados para pegar, entregar ou produzir na V0.1.
+
+Landscape só substitui portrait se o graybox demonstrar prejuízo claro de gameplay ou visibilidade.
 
 ## 4. Motor de negócios
 
@@ -87,6 +90,7 @@ Estados mínimos:
 - RECEIVING
 - PAYING
 - LEAVING
+- ABANDONING
 
 Atributos mínimos:
 
@@ -104,13 +108,22 @@ Feedback visual simplificado:
 
 Se a paciência chegar a zero, o cliente abandona o estabelecimento.
 
-## 7. Funcionários
+## 7. NPC ambiental
+
+A V0.1 deve separar conceitualmente:
+
+- `AmbientPedestrian`: circula pela orla sem obrigação de comprar;
+- `Customer`: entra no fluxo econômico do estabelecimento.
+
+Os dois podem compartilhar modelos, animações, pooling e partes da navegação, mas não o mesmo comportamento lógico.
+
+## 8. Funcionários
 
 A V0.1 deve incluir pelo menos um funcionário automático desbloqueável. Sua função principal é demonstrar a transição do jogador de operador para gestor.
 
 Sistemas avançados de salário, cansaço, experiência, especialização e transferência entre unidades são futuros.
 
-## 8. Upgrades
+## 9. Upgrades
 
 Os upgrades devem produzir transformação visual e funcional.
 
@@ -125,13 +138,15 @@ Exemplos:
 
 A compra pode ocorrer por áreas físicas no chão ou interface contextual, priorizando feedback visual claro.
 
-## 9. Economia
+## 10. Economia
 
 A V0.1 possui uma moeda de jogo. Valores podem ser abstratos durante prototipagem.
 
 Receitas vêm de vendas. Gastos iniciais se concentram em upgrades. Custos operacionais complexos entram posteriormente.
 
-## 10. Progressão
+Os preços da V0.1 são definidos por dados (`ProductDefinition`/configuração equivalente). **O jogador não altera preços manualmente na primeira versão.** Precificação gerencial é sistema futuro.
+
+## 11. Progressão
 
 A primeira região deve transmitir claramente:
 
@@ -139,7 +154,9 @@ A primeira região deve transmitir claramente:
 
 Ao concluir os marcos do Laranjal, o mapa da cidade é apresentado com regiões futuras bloqueadas.
 
-## 11. Game feel
+A V0.1 não exige um sistema global de reputação. Consolidação é medida por progresso, upgrades, funcionário, fluxo atendido e marcos econômicos/satisfação definidos no playtest.
+
+## 12. Game feel
 
 Elementos obrigatórios:
 
@@ -151,7 +168,7 @@ Elementos obrigatórios:
 - reações visuais dos clientes;
 - progressão física perceptível.
 
-## 12. Save
+## 13. Save
 
 V0.1: save local.
 
@@ -165,7 +182,7 @@ Dados mínimos:
 
 Deve existir opção de resetar progresso durante desenvolvimento.
 
-## 13. Direção visual
+## 14. Direção visual
 
 - 3D estilizado.
 - Low-poly/modular quando adequado.
@@ -173,7 +190,7 @@ Deve existir opção de resetar progresso durante desenvolvimento.
 - Legibilidade acima do realismo.
 - Referências reconhecíveis ao Laranjal sem exigir reprodução fotogramétrica.
 
-## 14. Performance
+## 15. Performance
 
 Meta inicial:
 
@@ -182,14 +199,16 @@ Meta inicial:
 - Object pooling para NPCs/itens quando necessário.
 - Controle de luzes em tempo real, texturas, partículas e pathfinding.
 
-## 15. Monetização futura
+## 16. Monetização futura
 
-- Zero anúncios invasivos.
+- Zero anúncios em qualquer formato.
+- Sem integração de SDK de publicidade como modelo de receita.
 - Compras opcionais.
 - Prioridade para cosméticos, personalização e conteúdo visual.
 - Rankings competitivos não devem ser compráveis por vantagem financeira.
+- A direção comercial é free-to-play sem ads; a V0.1 não possui monetização.
 
-## 16. Social futuro
+## 17. Social futuro
 
 Planejado para fases posteriores:
 
@@ -202,16 +221,18 @@ Planejado para fases posteriores:
 - eventos compartilhados;
 - economia regional assíncrona.
 
-## 17. Definition of Done — V0.1
+## 18. Definition of Done — V0.1
 
 A primeira versão de teste é considerada concluída quando:
 
 - abre no Android;
 - funciona sem internet;
+- opera em portrait de forma adequada;
 - permite escolher o negócio;
 - carrega o Laranjal;
 - personagem se movimenta por joystick;
-- cliente entra e forma fila;
+- clientes entram e formam fila;
+- pedestres ambientais simples circulam sem obrigação de comprar;
 - pedido se adapta ao negócio;
 - produto pode ser produzido, transportado e entregue;
 - cliente paga;
