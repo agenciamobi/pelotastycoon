@@ -17,13 +17,28 @@ A V0.1 cobre principalmente as duas primeiras camadas.
 
 A receita vem da venda de produtos.
 
-Fatores básicos:
+Fatores básicos do modelo econômico:
 
-- preço do produto;
+- preço-base do produto;
 - quantidade vendida;
 - capacidade de atendimento;
 - ritmo de produção;
 - quantidade de clientes atendidos.
+
+### Preços na V0.1
+
+Os preços são parâmetros data-driven definidos na configuração de cada produto/negócio. **O jogador não ajusta preços manualmente na V0.1.**
+
+Isso mantém a primeira versão focada no core loop operacional e permite comparar os seis negócios com menos variáveis.
+
+### Precificação futura
+
+A gestão manual de preços poderá entrar em uma camada gerencial posterior, permitindo relações como:
+
+- preço × demanda;
+- preço × satisfação;
+- margem × volume;
+- concorrência regional.
 
 ## Custos
 
@@ -64,6 +79,20 @@ Exemplo conceitual, sem valores finais:
 - A automação deve ser conquistada, não entregue imediatamente.
 - Nenhum valor econômico da pré-produção é definitivo.
 - Valores devem ser data-driven e ajustáveis sem reescrever regras centrais.
+- Os seis negócios devem oferecer potencial de progressão comparável em uma janela equivalente de jogo bem executado.
+
+## Reputação
+
+A V0.1 **não possui sistema global de reputação empresarial**.
+
+Nesta fase, o feedback de qualidade é representado principalmente por:
+
+- paciência;
+- satisfação simples;
+- abandono de fila;
+- capacidade de manter fluxo sustentável.
+
+Reputação persistente por negócio/jogador entra futuramente, quando houver mais profundidade gerencial e social.
 
 ## Métricas futuras
 
