@@ -23,6 +23,12 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 17. [16 — UX/UI V0.1](16-UX-UI-V0.1.md)
 18. [17 — Direção de Arte V0.1](17-DIRECAO-DE-ARTE-V0.1.md)
 19. [18 — Áudio e Ambientação V0.1](18-AUDIO-E-AMBIENTACAO-V0.1.md)
+20. [19 — Planta do Cenário Laranjal V0.1](19-PLANTA-DO-CENARIO-LARANJAL-V0.1.md)
+21. [20 — Referências Reais do Laranjal e Mar de Dentro](20-REFERENCIAS-REAIS-LARANJAL-E-MAR-DE-DENTRO.md)
+22. [21 — Fluxo Espacial do Jogador e NPCs V0.1](21-FLUXO-ESPACIAL-JOGADOR-E-NPCS-V0.1.md)
+23. [22 — Zonas de Upgrade e Expansão V0.1](22-ZONAS-DE-UPGRADE-E-EXPANSAO-V0.1.md)
+24. [23 — Balanceamento Inicial dos Seis Negócios V0.1](23-BALANCEAMENTO-INICIAL-DOS-SEIS-NEGOCIOS-V0.1.md)
+25. [24 — Checklist de Fechamento PRE-PRODUCTION v1.0](24-CHECKLIST-FECHAMENTO-PRE-PRODUCTION-V1.0.md)
 
 ## Governança
 
@@ -31,12 +37,15 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 - **Bíblia narrativa:** função, tom e limites dos personagens.
 - **Diálogos adaptativos:** copy e regras de linguagem dependentes do negócio escolhido.
 - **UX/UI, arte e áudio:** direcionamento de produção do primeiro APK.
+- **Planta/fluxo espacial:** implantação da primeira área e circulação de jogador/NPCs.
+- **Referências reais:** lastro visual e contextual do Laranjal e do Mar de Dentro.
+- **Balanceamento:** valores provisórios para playtest; não economia definitiva.
 - **Backlog:** ideias exploratórias sem compromisso de implementação.
 - Mudanças de escopo devem atualizar os documentos relacionados.
 - A V0.1 permanece focada em um único ponto comercial na Praia do Laranjal.
 
 ## Status
 
-**Fase atual:** Pré-produção.
+**Fase atual:** Pré-produção — pronta para revisão de fechamento.
 
-A implementação Unity só deve começar após revisão e aprovação da documentação-base, consolidada como `PRE-PRODUCTION v1.0`.
+A implementação Unity começa após aprovação do checklist e consolidação do marco `PRE-PRODUCTION v1.0`.
