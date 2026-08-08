@@ -17,10 +17,16 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 11. [10 — Roadmap V0.1](10-ROADMAP-V0.1.md)
 12. [11 — Canon e Regras](11-CANON-E-REGRAS.md)
 13. [12 — Backlog de Ideias](12-BACKLOG-DE-IDEIAS.md)
+14. [13 — Roteiro Jogável do Capítulo 1](13-ROTEIRO-JOGAVEL-CAPITULO-1.md)
+15. [14 — Bíblia Narrativa e Personagens](14-BIBLIA-NARRATIVA-E-PERSONAGENS.md)
+16. [15 — Diálogos Adaptativos V0.1](15-DIALOGOS-ADAPTATIVOS-V0.1.md)
 
 ## Governança
 
 - **Canon/GDD:** decisões oficiais e requisitos aprovados.
+- **Roteiro jogável:** tradução da narrativa para a experiência real da primeira sessão.
+- **Bíblia narrativa:** função, tom e limites dos personagens.
+- **Diálogos adaptativos:** copy e regras de linguagem dependentes do negócio escolhido.
 - **Backlog:** ideias exploratórias sem compromisso de implementação.
 - Mudanças de escopo devem atualizar os documentos relacionados.
 - A V0.1 permanece focada em um único ponto comercial na Praia do Laranjal.
