@@ -2,7 +2,7 @@
 
 ## Premissa
 
-O jogador inicia sua trajetória empresarial na Praia do Laranjal, em Pelotas/RS, com poucos recursos e a oportunidade de ocupar um pequeno ponto comercial. Ele ainda não possui funcionários, reputação, rede ou patrimônio relevante. Sua primeira decisão é escolher que tipo de negócio deseja construir naquele espaço.
+O jogador inicia sua trajetória empresarial na Praia do Laranjal, em Pelotas/RS, com poucos recursos e a oportunidade de ocupar um pequeno ponto comercial. Ele ainda não possui funcionários, rede ou patrimônio relevante e começa sem histórico de clientes. Sua primeira decisão é escolher que tipo de negócio deseja construir naquele espaço.
 
 O jogo não entrega uma biografia fixa ao protagonista. O protagonista é o próprio jogador. A história estabelece o mundo, a oportunidade e os desafios; as decisões e a trajetória pertencem ao jogador.
 
@@ -34,7 +34,7 @@ O jogador começa sozinho. Ele precisa abastecer, produzir, atender e recolher o
 - Um pequeno ponto comercial.
 - Um equipamento básico.
 - Nenhum funcionário.
-- Reputação inicial baixa/neutra.
+- Nenhum histórico de atendimento.
 - Pouco capital.
 - Poucos clientes.
 
@@ -44,8 +44,10 @@ O jogador começa sozinho. Ele precisa abastecer, produzir, atender e recolher o
 - Produção mais eficiente.
 - Pelo menos um funcionário.
 - Fluxo regular de clientes.
-- Boa reputação.
-- Lucro consistente.
+- Satisfação operacional estável.
+- Lucro consistente dentro da economia simplificada da V0.1.
+
+A V0.1 não exige um sistema global de reputação. Reputação empresarial detalhada pertence à evolução futura do tycoon.
 
 Ao atingir o marco final da primeira região, o jogo apresenta a mensagem:
 
@@ -128,7 +130,7 @@ Exemplos:
 
 - "Vai sair hoje?"
 - "Esse aqui está muito bom."
-- "Está puxado esse preço, hein?"
+- "Gostei do atendimento."
 - "Bah, gostei daqui."
 
 As falas também devem se adaptar ao negócio e produto escolhido pelo jogador.
