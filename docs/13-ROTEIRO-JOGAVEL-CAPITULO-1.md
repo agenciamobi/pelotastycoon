@@ -2,9 +2,9 @@
 
 ## Status
 
-Documento de pré-produção da V0.1.
+Documento oficial da `PRE-PRODUCTION v1.0` para a V0.1.
 
-Este documento transforma o Capítulo 1 — **O Primeiro Negócio** — em uma sequência jogável. Ele define ritmo, objetivos, tutorial contextual, acontecimentos narrativos e o momento em que o jogador deixa de ser apenas operador e começa a se perceber como gestor.
+Este documento transforma o Capítulo 1 — **O Primeiro Negócio** — em uma sequência jogável. Ele define ritmo, objetivos, tutorial contextual, acontecimentos narrativos e a passagem do jogador de operador para gestor iniciante.
 
 ## 1. Objetivo do capítulo
 
@@ -25,69 +25,55 @@ O capítulo não deve parecer um tutorial separado do jogo. O tutorial é a pró
 
 ## 2. Eixo temático
 
-O Capítulo 1 é sobre:
+**recomeço → iniciativa → trabalho → aprendizado → crescimento**
 
-**recomeço → iniciativa → trabalho → aprendizado → crescimento**.
-
-O jogo não determina por que o jogador chegou àquele momento da vida. Não há tragédia obrigatória, herança ou biografia fixa. A narrativa apenas estabelece que existe uma pequena oportunidade e que o jogador decidiu aproveitá-la.
-
-A história pessoal é preenchida pelo próprio jogador.
+O jogo não determina por que o jogador chegou àquele momento da vida. Não há tragédia obrigatória, herança ou biografia fixa. Existe uma pequena oportunidade e o jogador decidiu aproveitá-la.
 
 ## 3. Duração-alvo
 
-Para a primeira experiência de teste:
+Baseline de playtest:
 
-- primeiros 30 segundos: identidade e escolha;
-- primeira venda: até aproximadamente 2 minutos;
-- primeiro upgrade significativo: nos primeiros minutos;
-- primeiro funcionário: ainda na primeira sessão;
-- conclusão do arco inicial do ponto: alcançável em uma sessão curta/média de teste.
+- escolha do negócio: até 30 segundos após a abertura;
+- primeira produção/venda: idealmente até 60–90 segundos;
+- primeiro upgrade: aproximadamente 2–4 minutos;
+- segundo produto: aproximadamente 5–8 minutos;
+- primeiro funcionário: aproximadamente 8–15 minutos;
+- consolidação do arco V0.1: aproximadamente 20–35 minutos no primeiro playthrough.
 
-Os números exatos serão definidos por playtest. O documento define ordem e intenção, não balanceamento final.
+Os números são parâmetros de teste, não compromissos definitivos.
 
-## 4. Sequência de abertura
-
-### Beat 0 — Pelotas
-
-**Estado:** jogo recém-iniciado.
+## 4. Beat 0 — Pelotas
 
 1. Tela escura.
 2. Som de água, vento e pássaros.
-3. Texto central:
+3. Texto:
 
-> **PELOTAS**
+> **PELOTAS**  
 > Rio Grande do Sul
 
-4. A imagem surge gradualmente.
-5. A câmera revela uma interpretação 3D estilizada da Praia do Laranjal.
-6. Lagoa dos Patos visível.
-7. Movimento leve de pessoas no entorno.
-8. A câmera aproxima-se de um pequeno ponto comercial simples.
-9. O personagem do jogador está diante do imóvel.
+4. A câmera revela uma interpretação 3D estilizada da Praia do Laranjal.
+5. Lagoa dos Patos visível.
+6. Calçadão arborizado com pedestres ambientais.
+7. A câmera percorre a orla e encontra o pequeno ponto comercial.
+8. O personagem do jogador está diante dele.
 
 Texto:
 
 > **Todo grande negócio começa pequeno.**
 
-Pausa curta.
+Depois:
 
 > **Este é o seu.**
 
-A câmera assume a perspectiva normal de gameplay.
+A abertura deve ser curta. Sem locução obrigatória ou exposição longa.
 
-### Regra
-
-Não usar exposição longa, locução obrigatória ou cutscene que impeça o jogador de começar rapidamente.
-
-## 5. A escolha do primeiro negócio
-
-A primeira decisão relevante acontece imediatamente.
+## 5. Escolha do primeiro negócio
 
 Título:
 
 > **O que você vai construir aqui?**
 
-Opções da V0.1:
+Opções:
 
 - Pizzaria
 - Sorveteria
@@ -96,249 +82,176 @@ Opções da V0.1:
 - Pastelaria
 - Peixaria
 
-Cada opção deve apresentar uma prévia visual simples do ponto transformado e uma indicação curta do estilo operacional.
+Cada opção apresenta:
 
-Exemplo conceitual:
+- ícone;
+- preview visual simples;
+- característica operacional curta.
 
-### Sorveteria
+A escolha define o negócio inicial daquele save.
 
-- preparo rápido;
-- alto giro;
-- produtos refrescantes;
-- identidade visual leve.
+Durante desenvolvimento, o reset permite testar outra opção.
 
-### Pizzaria
+## 6. Transformação inicial
 
-- preparo mais demorado;
-- ticket maior;
-- necessidade de organizar produção.
+Após confirmar:
 
-### Pastelaria
-
-- ritmo intermediário;
-- forte giro de balcão;
-- produção rápida quando organizada.
-
-As diferenças exatas serão calibradas posteriormente.
-
-### Confirmação
-
-Ao selecionar:
-
-> **Abrir [TIPO DE NEGÓCIO]?**
-
-A confirmação deve mostrar que a escolha define o negócio inicial daquele save.
-
-Durante desenvolvimento, o reset de progresso permite testar outra opção.
-
-## 6. Transformação inicial do ponto
-
-Após a escolha:
-
-1. fachada recebe identidade básica correspondente;
+1. fachada recebe identidade básica;
 2. estação inicial aparece;
 3. balcão aparece;
 4. primeiro produto é habilitado;
-5. UI mínima mostra caixa atual;
-6. o controle do personagem é liberado.
+5. UI mínima mostra o caixa;
+6. personagem recebe controle.
 
-A transformação deve ser rápida e visualmente satisfatória, mesmo usando assets provisórios.
+Não iniciar com múltiplas estações, menus ou produtos.
 
-Não começar o jogo com várias estações, menus ou produtos.
+## 7. Beat 1 — Movimento
 
-## 7. Beat 1 — Aprender a se mover
-
-O jogador recebe apenas a orientação indispensável.
-
-Prompt contextual:
+Prompt:
 
 > **Mova-se pelo estabelecimento.**
 
-Joystick virtual aparece.
+Joystick portrait aparece. Após movimentação suficiente, o prompt desaparece.
 
-Quando o jogador se movimenta por distância suficiente, o prompt desaparece permanentemente.
+## 8. Beat 2 — Primeiro cliente
 
-Nenhum texto deve explicar joystick, eixo ou controles além do necessário.
+Um `Customer` surge a partir do fluxo da orla e entra no estabelecimento enquanto outros `AmbientPedestrian` continuam circulando sem obrigação de comprar.
 
-## 8. Beat 2 — O primeiro cliente
+O cliente faz sempre o primeiro pedido disponível do negócio.
 
-Um cliente aparece do lado externo e caminha até o balcão.
+### Primeiro pedido canônico por negócio
 
-O jogador deve perceber visualmente a chegada antes de receber uma instrução.
-
-Ao chegar:
-
-- cliente entra em estado `ORDERING`;
-- balão mostra pedido adaptado ao negócio;
-- o produto solicitado é sempre o primeiro produto disponível.
-
-Exemplos:
-
-### Pizzaria
+**Pizzaria**
 
 > "Uma pizza de queijo, por favor."
 
-### Sorveteria
+**Sorveteria**
 
 > "Quero um sorvete de chocolate."
 
-### Churrascaria
+**Churrascaria**
 
 > "Quero uma porção de carne."
 
-### Lancheria
+**Lancheria**
 
-> "Um xis, por favor."
+> "Um hambúrguer, por favor."
 
-### Pastelaria
+**Pastelaria**
 
 > "Um pastel de carne, por favor."
 
-### Peixaria
+**Peixaria**
 
-> "Vou levar uma porção de pescado."
+> "Vou levar um filé de pescado."
 
-A redação definitiva depende da lista final de produtos.
+Os nomes seguem `23-BALANCEAMENTO-INICIAL-DOS-SEIS-NEGOCIOS-V0.1.md`.
 
 ## 9. Beat 3 — Primeira produção
 
-Depois do pedido, a estação necessária recebe destaque visual discreto.
+A estação recebe destaque visual discreto.
 
 Prompt:
 
 > **Prepare o pedido.**
 
-O jogador aproxima-se da estação.
-
-A interação ocorre automaticamente por proximidade.
+Interação automática por proximidade.
 
 Feedback mínimo:
 
-- barra/indicador de produção;
+- progresso de produção;
 - animação simples;
-- áudio curto;
-- produto visualmente disponível ao concluir.
-
-Ao concluir, o jogador recebe o produto em sua capacidade de transporte.
+- som curto;
+- item pronto claramente visível.
 
 ## 10. Beat 4 — Primeira entrega
-
-O balcão recebe destaque visual.
 
 Prompt:
 
 > **Leve o pedido ao balcão.**
 
-Ao entrar na área do balcão:
+Ao entrar na zona:
 
 - produto é transferido;
 - cliente recebe;
-- reação positiva;
-- cliente paga.
+- cliente reage;
+- pagamento é gerado.
 
-O dinheiro deve aparecer fisicamente/visualmente.
+## 11. Beat 5 — Primeiro dinheiro
 
-Este é o primeiro momento de recompensa forte.
+O dinheiro aparece antes da instrução.
 
-## 11. Beat 5 — O primeiro dinheiro
+Ao coletar:
 
-O jogador vê o dinheiro antes de receber instrução.
-
-Ao se aproximar:
-
-- dinheiro é coletado;
 - som de caixa/moeda;
-- animação em direção ao contador de caixa;
-- valor aumenta.
+- feedback visual em direção ao caixa;
+- saldo aumenta.
 
 Mensagem curta:
 
 > **Primeira venda!**
 
-Evitar pop-up que pause o jogo por muito tempo.
+## 12. Beat 6 — Repetição sem tutorial
 
-## 12. Beat 6 — Repetição sem instrução
+O segundo cliente chega. O jogo não repete o processo inteiro.
 
-O segundo cliente chega.
+O objetivo é confirmar que o jogador compreendeu:
 
-Nenhum tutorial repete o processo inteiro.
+**pedido → produção → balcão → pagamento → coleta**
 
-Objetivo: verificar se o jogador aprendeu o loop:
+Dicas contextuais só reaparecem se houver inatividade relevante.
 
-**pedido → produção → balcão → pagamento → coleta**.
+## 13. Beat 7 — Pressão
 
-Se o jogador ficar parado por tempo excessivo, dicas contextuais podem reaparecer de maneira não intrusiva.
+Depois de algumas vendas:
 
-## 13. Beat 7 — Começa a pressão
+- mais clientes aparecem;
+- fila começa a existir;
+- produção mostra limite;
+- paciência ganha significado.
 
-Depois de algumas vendas, o jogo aumenta gradualmente o fluxo.
-
-Agora o jogador percebe um problema real:
-
-- há mais de um cliente;
-- existe espera;
-- a produção possui capacidade limitada;
-- clientes começam a perder paciência.
-
-O objetivo não é punir. É criar a necessidade do primeiro investimento.
-
-Uma reação possível:
+Possível fala:
 
 > "Está demorando..."
 
-O indicador de paciência passa a ter significado prático.
+A pressão deve criar necessidade de melhorar, não sensação de punição injusta.
 
 ## 14. Beat 8 — Primeiro upgrade
 
-Uma área de upgrade torna-se acessível quando o jogador possui recursos suficientes.
+Uma Upgrade Zone torna-se acessível.
 
-O upgrade inicial deve atacar um gargalo percebido pelo jogador.
+O primeiro upgrade deve atacar gargalo percebido, como:
 
-Possibilidades:
+- capacidade;
+- velocidade;
+- espaço de balcão.
 
-- produção mais rápida;
-- capacidade maior;
-- balcão com mais espaço.
-
-A compra deve gerar transformação física perceptível.
-
-Feedback:
-
-- construção/transformação;
-- partículas simples;
-- áudio positivo;
-- nova estatística brevemente apresentada.
+A compra deve produzir transformação física e feedback curto.
 
 Mensagem:
 
 > **Seu negócio está crescendo.**
 
-## 15. Beat 9 — Primeiro novo produto
+## 15. Beat 9 — Segundo produto
 
-Após estabilizar a operação inicial, um segundo produto pode ser desbloqueado.
+O segundo produto mostra que crescimento adiciona variedade e complexidade.
 
-O objetivo narrativo é mostrar que crescimento também significa complexidade.
+Ordem baseline:
 
-Exemplos provisórios:
-
-- Pizzaria: queijo → calabresa;
+- Pizzaria: pizza de queijo → pizza de calabresa;
 - Sorveteria: chocolate → morango;
-- Churrascaria: carne → linguiça;
-- Lancheria: xis → cachorro-quente;
-- Pastelaria: carne → queijo;
-- Peixaria: primeiro pescado → segunda opção preparada.
+- Churrascaria: porção de carne → porção de frango;
+- Lancheria: hambúrguer → cachorro-quente;
+- Pastelaria: pastel de carne → pastel de queijo;
+- Peixaria: filé de pescado → pescado inteiro.
 
-A lista definitiva pertence ao documento de negócios/produtos.
+O terceiro produto fica disponível mais adiante conforme o balanceamento.
 
-## 16. Beat 10 — O gargalo humano
+## 16. Beat 10 — Gargalo humano
 
-O fluxo aumenta novamente.
+Mesmo com equipamento melhor, o jogador ainda faz tudo sozinho.
 
-Mesmo com equipamento melhor, o jogador continua fazendo tudo sozinho.
-
-Essa é a preparação narrativa para o primeiro funcionário.
-
-O jogo deve permitir que o jogador perceba:
+A experiência deve comunicar sem texto explicativo:
 
 > "Eu não consigo estar em dois lugares ao mesmo tempo."
 
@@ -346,62 +259,60 @@ Só então a contratação é apresentada.
 
 ## 17. Beat 11 — Primeiro funcionário
 
-Área/opção:
+Opção:
 
 > **Contratar funcionário**
 
-Ao comprar:
+Ao contratar:
 
-1. funcionário aparece no ponto;
-2. recebe uma função operacional simples;
-3. começa a executar automaticamente parte do fluxo;
-4. o jogador percebe imediatamente a redução da carga manual.
+1. funcionário aparece;
+2. assume uma função operacional;
+3. começa a automatizar parte do fluxo;
+4. a mudança é imediatamente perceptível.
 
-Mensagem curta:
+Mensagem:
 
 > **Agora você não precisa fazer tudo sozinho.**
 
-Este é um dos principais momentos do Capítulo 1.
+Transição narrativa:
 
-Ele representa a transição narrativa:
+**operador → gestor iniciante**
 
-**operador → gestor iniciante**.
+A preferência inicial de playtest é automatizar `processor → counter`, mantendo o jogador envolvido na produção.
 
 ## 18. Beat 12 — Aprender a observar
 
-Após a contratação, o jogo reduz temporariamente a pressão de instruções.
+Depois do primeiro funcionário, o jogador deve poder:
 
-O jogador deve poder:
-
+- observar fila;
 - acompanhar o funcionário;
-- perceber filas;
 - identificar dinheiro acumulado;
-- decidir onde investir;
-- continuar ajudando manualmente se desejar.
+- decidir novo upgrade;
+- continuar ajudando manualmente.
 
 O jogo começa a ensinar gestão sem abrir uma planilha.
 
 ## 19. Beat 13 — Consolidação do ponto
 
-A reta final da V0.1 envolve atingir marcos combinados, por exemplo:
+A reta final combina marcos como:
 
 - quantidade mínima de upgrades;
 - funcionário contratado;
 - fluxo sustentável;
 - determinado volume de vendas;
-- nível/reputação mínima simplificada.
+- marco mínimo de satisfação/progresso operacional.
 
-Os requisitos numéricos serão calibrados em playtest.
+**Não há requisito de reputação global na V0.1.**
 
-Visualmente, o estabelecimento deve estar claramente mais desenvolvido do que no início.
+Os números serão calibrados em playtest.
 
-O antes/depois é parte da recompensa.
+O estabelecimento deve estar visualmente mais desenvolvido do que no início.
 
-## 20. Conclusão do arco inicial
+## 20. Conclusão do arco
 
-Quando o marco de consolidação é alcançado:
+Quando o marco é alcançado:
 
-- fluxo continua funcionando;
+- operação continua funcionando;
 - câmera pode se afastar levemente;
 - o jogador vê clientes sendo atendidos no negócio que construiu.
 
@@ -409,79 +320,59 @@ Mensagem:
 
 > **Seu negócio começou a chamar atenção pela cidade.**
 
-Em seguida:
+Depois:
 
 > **Mas Pelotas é muito maior do que este ponto.**
 
-Transição para o mapa da cidade.
+## 21. Revelação do mapa de Pelotas
 
-## 21. A primeira revelação do mapa de Pelotas
+O mapa é recompensa narrativa.
 
-Esta deve ser uma recompensa narrativa, não apenas uma tela de seleção.
+Mostra:
 
-O mapa mostra:
-
-- Praia do Laranjal — ativa/concluída no arco inicial;
-- outras regiões como futuras oportunidades;
-- algumas áreas bloqueadas;
-- nenhuma obrigação de implementar essas regiões na V0.1.
-
-Exemplo conceitual:
-
-- Praia do Laranjal — seu primeiro negócio;
+- Praia do Laranjal — ativa;
 - Centro — bloqueado;
 - Mercado Público — bloqueado;
 - Porto — bloqueado;
 - Z3 — bloqueado;
 - evento/feira futura — bloqueado.
 
-Nomes de marcas privadas ou eventos protegidos permanecem sujeitos a autorização antes do uso comercial definitivo.
+Marcas privadas e eventos específicos permanecem sujeitos a autorização/licenciamento.
 
-Mensagem final da V0.1:
+Mensagem final:
 
 > **Isto é só o começo.**
 
-A câmera/tela retorna ao negócio para permitir continuar jogando.
-
-Não existe `Game Over` nem encerramento obrigatório.
+O jogo retorna ao negócio. Não existe `Game Over` por concluir o arco.
 
 ## 22. Tutorial invisível
 
-Regra central:
+O jogador aprende porque o mundo apresenta um problema.
 
-O jogador deve aprender porque o mundo apresenta um problema, não porque o jogo exibe um manual.
+Evitar explicações como:
 
-### Ruim
+> "Clientes possuem uma variável chamada paciência..."
 
-> "Clientes possuem uma variável chamada paciência. Quando ela chega a zero..."
+Preferir:
 
-### Correto
-
-Cliente começa a esperar, muda de expressão e diz:
-
-> "Está demorando..."
-
-A barra diminui.
-
-O jogador entende a relação observando.
+- expressão mudando;
+- indicador diminuindo;
+- fala curta;
+- consequência observável.
 
 ## 23. Falha e recuperação
 
-A V0.1 não deve punir pesadamente erros iniciais.
-
 Se um cliente abandonar:
 
-- nenhuma dívida artificial;
-- nenhuma tela de derrota;
-- receita daquela venda é perdida;
+- não há dívida artificial;
+- não há tela de derrota;
+- a venda é perdida;
 - cliente demonstra insatisfação e sai;
-- novo cliente poderá chegar.
+- novo cliente pode chegar.
 
 O fracasso ensina eficiência, não reinicia a sessão.
 
-## 24. Adaptação por tipo de negócio
-
-O roteiro é único, mas conteúdo deve ser data-driven.
+## 24. Adaptação data-driven
 
 Cada negócio fornece ao roteiro:
 
@@ -497,60 +388,40 @@ Cada negócio fornece ao roteiro:
 - `upgradeLabels`;
 - `visualTheme`.
 
-O roteiro não deve conter condicionais de gameplay como `if Pizza` espalhados pelo código.
+O código não deve espalhar condicionais como `if Pizza` pelo core loop.
 
 ## 25. Frases contextuais mínimas
 
-Cada negócio deve possuir pelo menos variações para:
+Cada negócio deve possuir variações para:
 
-### Pedido
+- pedido;
+- espera;
+- satisfação;
+- abandono;
+- despedida.
 
-- pedido direto;
-- pedido cordial;
-- pedido casual.
+As frases concretas pertencem ao documento de diálogos adaptativos.
 
-### Espera
+## 26. Ritmo emocional
 
-- leve impaciência;
-- impaciência média;
-- abandono.
+**curiosidade → escolha → domínio → recompensa → pressão → solução → automação → orgulho → ambição**
 
-### Satisfação
-
-- aprovação simples;
-- elogio ao produto;
-- intenção de retorno.
-
-### Saída
-
-- despedida neutra;
-- despedida positiva;
-- saída insatisfeita.
-
-## 26. Ritmo emocional esperado
-
-A curva da primeira sessão deve seguir aproximadamente:
-
-**curiosidade → escolha → domínio → recompensa → pressão → solução → automação → orgulho → ambição**.
-
-Se o jogador sentir apenas repetição e números subindo, o Capítulo 1 falhou mesmo que tecnicamente funcione.
+Se a experiência transmitir apenas repetição e números subindo, o capítulo falhou mesmo que tecnicamente funcione.
 
 ## 27. Critérios narrativos de aceite
 
-O Capítulo 1 está narrativamente funcional quando um novo jogador consegue compreender, sem explicação externa:
+Um jogador novo deve compreender sem explicação presencial:
 
 - que está em Pelotas/Laranjal;
 - que aquele ponto é seu primeiro negócio;
-- que escolheu o tipo de comércio;
+- que escolheu a categoria;
 - como uma venda acontece;
-- por que precisa melhorar equipamentos;
-- por que contratar um funcionário é valioso;
+- por que melhorar equipamentos ajuda;
+- por que contratar alguém é valioso;
 - que seu negócio mudou visualmente;
 - que existem oportunidades futuras pela cidade.
 
 ## 28. Fora do escopo da V0.1
-
-Não entram neste capítulo inicial:
 
 - serviço de mesa;
 - delivery;
@@ -566,18 +437,20 @@ Não entram neste capítulo inicial:
 - clima influenciando economia;
 - eventos globais;
 - imóveis pela cidade;
-- franquias.
+- franquias;
+- reputação global;
+- precificação manual;
+- monetização;
+- publicidade.
 
 Podem existir elementos visuais que antecipem o universo, mas não sistemas incompletos.
 
 ## 29. Princípio final
 
-Ao terminar o primeiro arco, o jogador deve olhar para o pequeno estabelecimento e sentir:
+Ao terminar o primeiro arco, o jogador deve olhar para o estabelecimento e sentir:
 
 > **"Eu construí isso."**
 
 Ao ver o mapa de Pelotas, a reação esperada é:
 
 > **"Até onde eu consigo chegar?"**
-
-Essas duas sensações definem o Capítulo 1.
