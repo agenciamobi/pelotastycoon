@@ -29,6 +29,7 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 23. [22 — Zonas de Upgrade e Expansão V0.1](22-ZONAS-DE-UPGRADE-E-EXPANSAO-V0.1.md)
 24. [23 — Balanceamento Inicial dos Seis Negócios V0.1](23-BALANCEAMENTO-INICIAL-DOS-SEIS-NEGOCIOS-V0.1.md)
 25. [24 — Checklist de Fechamento PRE-PRODUCTION v1.0](24-CHECKLIST-FECHAMENTO-PRE-PRODUCTION-V1.0.md)
+26. [25 — Marcos Visuais da Orla do Laranjal](25-MARCOS-VISUAIS-DA-ORLA-DO-LARANJAL.md)
 
 ## Governança
 
@@ -39,6 +40,7 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 - **UX/UI, arte e áudio:** direcionamento de produção do primeiro APK.
 - **Planta/fluxo espacial:** implantação da primeira área e circulação de jogador/NPCs.
 - **Referências reais:** lastro visual e contextual do Laranjal e do Mar de Dentro.
+- **Marcos visuais:** elementos prioritários de reconhecimento da orla e regras de reprodução.
 - **Balanceamento:** valores provisórios para playtest; não economia definitiva.
 - **Backlog:** ideias exploratórias sem compromisso de implementação.
 - Mudanças de escopo devem atualizar os documentos relacionados.
