@@ -12,7 +12,7 @@ O produto combina a acessibilidade de jogos idle/tycoon com camadas progressivas
 - Gameplay mobile de um dedo, direto e acessível.
 - Progressão de trabalhador-operador para empresário e gestor.
 - Negócios configuráveis a partir de um motor comum de gameplay.
-- Sem anúncios interrompendo a experiência.
+- Zero publicidade durante a experiência: sem interstitial, rewarded ad ou formato equivalente.
 - Compras opcionais focadas prioritariamente em personalização e conteúdo cosmético.
 - Arquitetura preparada para recursos sociais e multiplayer assíncrono no futuro.
 
@@ -24,10 +24,10 @@ O produto combina a acessibilidade de jogos idle/tycoon com camadas progressivas
 
 1. **Pelotas é parte do gameplay** — a cidade não é apenas plano de fundo.
 2. **Começar pequeno** — o jogador participa da operação antes de automatizá-la.
-3. **Gestão com consequência** — preço, atendimento, capacidade e satisfação importam.
+3. **Gestão com consequência** — atendimento, capacidade e satisfação importam; precificação gerencial é uma camada futura.
 4. **Progressão visível** — o estabelecimento muda fisicamente conforme cresce.
 5. **Acessibilidade mobile** — controles e interface simples, legíveis e rápidos.
-6. **Respeito ao jogador** — zero anúncios invasivos e ausência de pay-to-win competitivo.
+6. **Respeito ao jogador** — zero anúncios e ausência de pay-to-win competitivo.
 7. **Escalabilidade** — o primeiro ponto é o Laranjal; a arquitetura deve permitir novas regiões, cidades e modos.
 
 ## Público inicial
@@ -41,6 +41,13 @@ O produto combina a acessibilidade de jogos idle/tycoon com camadas progressivas
 - Android.
 - APK interno para testes.
 - Publicação futura via Google Play.
+- Portrait como orientação baseline da V0.1.
+
+## Modelo comercial futuro
+
+A direção comercial é **free-to-play sem publicidade**, monetizada por compras opcionais dentro do jogo. A progressão principal deve continuar acessível sem pagamento, e dinheiro real não compra superioridade em rankings competitivos.
+
+A V0.1 não terá loja, moeda premium ou compras.
 
 ## Escopo da primeira versão jogável
 
@@ -55,6 +62,8 @@ A versão 0.1 terá apenas a Praia do Laranjal e um ponto comercial. O jogador p
 
 Todos compartilham o mesmo motor de gameplay. A escolha altera produtos, estações, equipamentos, textos, falas, preços-base e identidade visual.
 
+Na V0.1, os preços são parâmetros de configuração do negócio e **não são ajustados manualmente pelo jogador**. Gestão de precificação fica para uma camada futura.
+
 ## Fora do escopo da V0.1
 
 - Outras regiões de Pelotas.
@@ -62,8 +71,9 @@ Todos compartilham o mesmo motor de gameplay. A escolha altera produtos, estaç�
 - Ranking online.
 - Login e cloud save.
 - Economia compartilhada.
-- Publicidade.
+- Publicidade/SDK de ads.
 - Compras dentro do jogo.
+- Precificação manual pelo jogador.
 - Serviço de mesa complexo.
 - Trânsito ou mundo aberto completo.
 
