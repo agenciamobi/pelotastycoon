@@ -4,9 +4,9 @@ Jogo tycoon 3D ambientado em Pelotas/RS. O jogador começa com seu primeiro neg�
 
 ## Status
 
-**Pré-produção.**
+**PRE-PRODUCTION v1.0 — revisão final aprovada para início da implementação.**
 
-A prioridade atual é fechar visão, enredo, game design, economia, arquitetura e escopo da primeira versão antes de iniciar a implementação em Unity.
+A V0.1 entra agora na fase de fundação Unity e graybox, mantendo o escopo documentado em `/docs`.
 
 ## V0.1
 
@@ -25,24 +25,33 @@ Os seis negócios compartilharão o mesmo motor de gameplay, adaptando produtos,
 
 - Pelotas é parte do gameplay, não apenas cenário.
 - Começar pequeno e crescer faz parte da narrativa.
-- Mobile-first e controle simples.
+- Mobile-first, portrait e controle simples.
 - Gestão com consequência e automação gradual.
-- Zero anúncios invasivos.
+- Zero anúncios: sem interstitial, rewarded ad ou SDK de publicidade.
+- Compras futuras são opcionais e não compram superioridade competitiva.
 - Sem pay-to-win competitivo.
 - Multiplayer social futuro priorizando arquitetura assíncrona.
 
 ## Tecnologia planejada
 
-- Unity 6 LTS
+- Unity 6.3 LTS
 - C#
 - URP
 - Android
+- Portrait como baseline da V0.1
+- Android 16 / API 36 como baseline de target para publicação futura
 - Save local na V0.1
 - Supabase em fases online futuras
 
+A versão exata de patch do Unity será fixada pelo `ProjectVersion.txt` no primeiro commit do projeto Unity.
+
+## Modelo comercial futuro
+
+A direção comercial é **free-to-play sem publicidade**, com compras opcionais dentro do jogo voltadas principalmente a personalização, cosméticos e conteúdo visual. A V0.1 não terá monetização.
+
 ## Documentação
 
-A documentação oficial de pré-produção está em [`/docs`](docs/README.md).
+A documentação oficial está em [`/docs`](docs/README.md).
 
 ## Projeto
 
