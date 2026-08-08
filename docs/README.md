@@ -1,6 +1,6 @@
 # Documentação — Pelotas Tycoon
 
-Esta pasta contém a documentação oficial de pré-produção do projeto.
+Esta pasta contém a documentação oficial do projeto.
 
 ## Ordem de leitura
 
@@ -30,6 +30,7 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 24. [23 — Balanceamento Inicial dos Seis Negócios V0.1](23-BALANCEAMENTO-INICIAL-DOS-SEIS-NEGOCIOS-V0.1.md)
 25. [24 — Checklist de Fechamento PRE-PRODUCTION v1.0](24-CHECKLIST-FECHAMENTO-PRE-PRODUCTION-V1.0.md)
 26. [25 — Marcos Visuais da Orla do Laranjal](25-MARCOS-VISUAIS-DA-ORLA-DO-LARANJAL.md)
+27. [26 — Revisão Cruzada Final PRE-PRODUCTION v1.0](26-REVISAO-CRUZADA-FINAL-PRE-PRODUCTION-V1.0.md)
 
 ## Governança
 
@@ -44,10 +45,16 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 - **Balanceamento:** valores provisórios para playtest; não economia definitiva.
 - **Backlog:** ideias exploratórias sem compromisso de implementação.
 - Mudanças de escopo devem atualizar os documentos relacionados.
-- A V0.1 permanece focada em um único ponto comercial na Praia do Laranjal.
+- Novas ideias não entram automaticamente na V0.1 depois do congelamento.
 
-## Status
+## Marco atual
 
-**Fase atual:** Pré-produção — pronta para revisão de fechamento.
+**`PRE-PRODUCTION v1.0` — APROVADA.**
 
-A implementação Unity começa após aprovação do checklist e consolidação do marco `PRE-PRODUCTION v1.0`.
+A documentação passou por revisão cruzada e está liberada para início da implementação.
+
+## Próxima fase
+
+**`FOUNDATION v0.1`**
+
+Objetivo: criar a fundação Unity/Android, gerar um APK vazio e iniciar o graybox do core loop antes de produção artística relevante.
