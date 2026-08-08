@@ -20,6 +20,9 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 14. [13 — Roteiro Jogável do Capítulo 1](13-ROTEIRO-JOGAVEL-CAPITULO-1.md)
 15. [14 — Bíblia Narrativa e Personagens](14-BIBLIA-NARRATIVA-E-PERSONAGENS.md)
 16. [15 — Diálogos Adaptativos V0.1](15-DIALOGOS-ADAPTATIVOS-V0.1.md)
+17. [16 — UX/UI V0.1](16-UX-UI-V0.1.md)
+18. [17 — Direção de Arte V0.1](17-DIRECAO-DE-ARTE-V0.1.md)
+19. [18 — Áudio e Ambientação V0.1](18-AUDIO-E-AMBIENTACAO-V0.1.md)
 
 ## Governança
 
@@ -27,6 +30,7 @@ Esta pasta contém a documentação oficial de pré-produção do projeto.
 - **Roteiro jogável:** tradução da narrativa para a experiência real da primeira sessão.
 - **Bíblia narrativa:** função, tom e limites dos personagens.
 - **Diálogos adaptativos:** copy e regras de linguagem dependentes do negócio escolhido.
+- **UX/UI, arte e áudio:** direcionamento de produção do primeiro APK.
 - **Backlog:** ideias exploratórias sem compromisso de implementação.
 - Mudanças de escopo devem atualizar os documentos relacionados.
 - A V0.1 permanece focada em um único ponto comercial na Praia do Laranjal.
