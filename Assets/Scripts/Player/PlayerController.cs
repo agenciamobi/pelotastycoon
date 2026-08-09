@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Animator animator;
 
     [Header("Gravity")]
     [SerializeField] private float gravity = -20f;
 
     private CharacterController characterController;
     private float verticalVelocity;
+
+    private static readonly int SpeedHash =
+        Animator.StringToHash("Speed");
 
     private void Awake()
     {
@@ -25,31 +29,38 @@ public class PlayerController : MonoBehaviour
     {
         Vector2 input = ReadMovementInput();
 
-        Vector3 movementDirection = GetCameraRelativeDirection(input);
+        UpdateAnimator(input);
+
+        Vector3 movementDirection =
+            GetCameraRelativeDirection(input);
 
         if (movementDirection.sqrMagnitude > 0.001f)
         {
             RotateTowardsMovement(movementDirection);
         }
 
-        if (characterController.isGrounded && verticalVelocity < 0f)
+        if (characterController.isGrounded &&
+            verticalVelocity < 0f)
         {
             verticalVelocity = -2f;
         }
 
         verticalVelocity += gravity * Time.deltaTime;
 
-        Vector3 velocity = movementDirection * moveSpeed;
+        Vector3 velocity =
+            movementDirection * moveSpeed;
+
         velocity.y = verticalVelocity;
 
-        characterController.Move(velocity * Time.deltaTime);
+        characterController.Move(
+            velocity * Time.deltaTime
+        );
     }
 
     private Vector2 ReadMovementInput()
     {
         Vector2 input = Vector2.zero;
 
-        // Teclado para desenvolvimento no PC.
         if (Keyboard.current != null)
         {
             if (Keyboard.current.wKey.isPressed ||
@@ -69,12 +80,13 @@ public class PlayerController : MonoBehaviour
                 input.x -= 1f;
         }
 
-        // Joystick virtual / gamepad.
         if (Gamepad.current != null)
         {
-            Vector2 joystickInput = Gamepad.current.leftStick.ReadValue();
+            Vector2 joystickInput =
+                Gamepad.current.leftStick.ReadValue();
 
-            if (joystickInput.sqrMagnitude > input.sqrMagnitude)
+            if (joystickInput.sqrMagnitude >
+                input.sqrMagnitude)
             {
                 input = joystickInput;
             }
@@ -111,10 +123,24 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation =
             Quaternion.LookRotation(direction, Vector3.up);
 
-        transform.rotation = Quaternion.Slerp(
-            transform.rotation,
-            targetRotation,
-            rotationSpeed * Time.deltaTime
+        transform.rotation =
+            Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
+    }
+
+    private void UpdateAnimator(Vector2 input)
+    {
+        if (animator == null)
+            return;
+
+        animator.SetFloat(
+            SpeedHash,
+            input.magnitude,
+            0.1f,
+            Time.deltaTime
         );
     }
 }
