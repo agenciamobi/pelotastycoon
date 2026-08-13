@@ -2,61 +2,42 @@
 
 ## Objetivo da V0.1
 
-Entregar um APK Android instalável e jogável, ambientado apenas na Praia do Laranjal, com um ponto comercial e seis categorias de negócio que compartilham o mesmo motor.
+Entregar rapidamente uma versão jogável pela web, ambientada na Praia do Laranjal, validar o core loop com jogadores reais e manter a mesma base pronta para Android via Capacitor.
 
 ## Fase 0 — Pré-produção
 
-- Visão aprovada.
-- História e enredo aprovados.
-- GDD aprovado.
-- Core loop definido.
-- Negócios iniciais definidos.
-- Economia inicial definida.
-- Regras de NPCs definidas.
-- Direção do Laranjal definida.
-- Monetização futura definida.
-- Arquitetura técnica definida.
-- Canon e backlog separados.
-- Revisão cruzada concluída.
+Concluída em `PRE-PRODUCTION v1.0`. A visão, história, GDD, core loop, negócios, economia, NPCs, Laranjal, monetização e referências permanecem válidos, exceto decisões técnicas substituídas formalmente pela arquitetura web-first.
 
-**Saída:** `PRE-PRODUCTION v1.0`.
+## Fase 1 — Foundation Web
 
-## Fase 1 — Fundação Unity
-
-- Criar projeto Unity 6.3 LTS com URP.
-- Fixar patch exato no `ProjectVersion.txt`.
-- Configurar Android Build Support.
-- Definir package name `com.agenciamobi.pelotastycoon`.
-- Configurar portrait como orientação baseline.
-- Configurar Android 16/API 36 como target baseline para publicação futura.
-- Definir `minSdk` após teste da faixa de aparelhos alvo.
-- Criar estrutura de pastas.
-- Criar cenas Boot, MainMenu e Laranjal.
-- Configurar Input System.
-- Configurar controle de versão adequado a Unity.
-- Adicionar Git LFS antes de assets pesados.
+- Criar projeto Vite + React + TypeScript.
+- Integrar Phaser 4.
+- Criar cena Laranjal.
+- Configurar layout mobile-first e responsivo.
+- Configurar save local.
+- Configurar Capacitor com `com.agenciamobi.pelotastycoon`.
+- Garantir build estático publicável.
 - Não integrar SDK de publicidade.
 
-**Saída:** projeto abre, compila e gera APK vazio funcional.
+**Saída:** URL abre e apresenta um primeiro graybox jogável.
 
-## Fase 2 — Protótipo cinza
+## Fase 2 — Vertical slice mínimo
 
-Usar placeholders geométricos.
+Usar formas e placeholders sempre que necessário.
 
-- Player com movimento.
-- Câmera.
-- Joystick virtual portrait.
-- Source Station.
-- Processor Station.
-- Counter Station.
-- Item transportável.
-- Cliente com NavMesh.
+- Personagem com movimento por toque/clique.
+- Área inicial do Laranjal.
+- Lagoa, areia, calçadão, rua e ponto comercial simplificados.
+- Trapiche como landmark visual inicial.
+- Compra do primeiro ponto.
+- Cliente chegando.
 - Fila.
-- Pedido.
+- Atendimento.
 - Pagamento.
-- Dinheiro coletável.
+- Saldo.
+- Save local.
 
-**Saída:** primeiro loop completo jogável sem arte final.
+**Saída:** primeiro loop econômico completo no navegador.
 
 ## Fase 3 — Motor data-driven
 
@@ -67,88 +48,81 @@ Usar placeholders geométricos.
 - UpgradeDefinition.
 - Seleção de negócio.
 - Adaptação automática de produtos, estações e falas.
-- Preços-base definidos nos dados, sem precificação manual pelo jogador.
+- Preços-base definidos nos dados.
 
-**Teste obrigatório:** trocar Pastelaria por Pizzaria sem alterar código do core loop.
+**Teste obrigatório:** trocar o negócio ativo sem alterar código do core loop.
 
 ## Fase 4 — Progressão
 
-- Saldo.
 - Pelo menos três upgrades.
-- Áreas/fluxo de compra de upgrades.
 - Primeiro funcionário automático.
 - Capacidade/velocidade configuráveis.
 - Satisfação/paciência básica.
+- Crescimento visual do estabelecimento.
 
 Não implementar reputação global na V0.1.
 
-## Fase 5 — Save local
+## Fase 5 — Save local robusto
 
 - SaveData versionado.
 - Persistência do negócio escolhido.
 - Persistência do dinheiro.
 - Persistência dos upgrades.
-- Retomada após fechar o app.
+- Retomada após fechar navegador/app.
 - Reset de progresso para testes.
+- Preparação de migration path para IndexedDB/cloud save futuro.
 
-## Fase 6 — Laranjal visual
+## Fase 6 — Laranjal cartoon 2.5D
 
-- Água/Lagoa dos Patos.
-- Areia.
-- Calçadão arborizado.
-- Vegetação.
-- Ponto comercial modular.
-- Rua/estacionamento e continuidade urbana simplificada.
-- Marco `Laranjal` em interpretação própria quando viável.
-- Edificações de apoio.
-- Céu e iluminação.
-- Ambientação sonora.
-- NPCs visuais low-poly.
-- `AmbientPedestrian` simples circulando independentemente dos clientes.
+- tiles e composição isométrica;
+- água/Lagoa dos Patos;
+- areia;
+- calçadão arborizado;
+- vegetação;
+- ponto comercial modular;
+- rua/estacionamento e continuidade urbana simplificada;
+- Trapiche atual do Laranjal como landmark reconhecível;
+- céu, iluminação e ambientação sonora;
+- personagens cartoon modulares;
+- pedestres ambientais separados dos clientes.
 
 ## Fase 7 — Game feel
 
-- Animações.
-- Feedback de produção.
-- Sons de caixa/venda.
-- Partículas de upgrade.
-- Reações de cliente.
-- Dinheiro satisfatório de coletar.
-- Transições de UI.
+- animações;
+- feedback de produção;
+- sons de caixa/venda;
+- partículas de upgrade;
+- reações de cliente;
+- transições de UI;
+- identidade visual cartoon definitiva.
 
-## Fase 8 — Otimização Android
+## Fase 8 — Android
 
-- Profiling em aparelho real.
-- Pooling.
-- Revisão de materiais/texturas.
-- Revisão de iluminação.
-- Revisão de NavMesh.
-- Redução de GC spikes.
-- Revisão de safe areas em portrait.
-- Meta mínima: 30 FPS estáveis em aparelho intermediário de teste.
+- adicionar plataforma Android ao Capacitor;
+- sincronizar o build web;
+- revisar safe areas;
+- revisar back button e ciclo de vida;
+- profiling em aparelho real;
+- revisar memória/texturas;
+- gerar APK/AAB de teste.
 
-## Fase 9 — APK V0.1
+## Fase 9 — V0.1 pública de teste
 
 Checklist:
 
-- [ ] Menu abre corretamente.
-- [ ] Orientação portrait funciona corretamente.
-- [ ] Jogador escolhe um dos seis negócios.
+- [ ] URL pública abre corretamente.
+- [ ] Layout funciona em mobile e desktop.
 - [ ] Laranjal carrega.
-- [ ] Player se movimenta por joystick.
+- [ ] Jogador se movimenta por toque/clique.
+- [ ] Primeiro ponto comercial pode ser adquirido.
 - [ ] Clientes chegam e formam fila.
-- [ ] Pedestres ambientais circulam sem obrigação de comprar.
-- [ ] Pedidos correspondem ao negócio escolhido.
-- [ ] Produção funciona.
-- [ ] Entrega funciona.
-- [ ] Pagamento funciona.
-- [ ] Dinheiro é coletável.
+- [ ] Atendimento gera receita.
 - [ ] Pelo menos três upgrades funcionam.
 - [ ] Pelo menos um funcionário funciona.
 - [ ] Paciência/abandono funciona.
 - [ ] Save local funciona.
 - [ ] Reset de teste funciona.
-- [ ] APK instala em Android real.
+- [ ] Build Android instala em aparelho real.
 - [ ] Performance aceitável.
 
 ## Fora da V0.1
@@ -163,6 +137,6 @@ Checklist:
 - Publicidade e SDK de ads.
 - Precificação manual.
 - Reputação global.
-- Outras regiões.
+- Outras regiões completas.
 - Multiplayer em tempo real.
 - Serviço de mesa complexo.

@@ -34,27 +34,20 @@ Esta pasta contém a documentação oficial do projeto.
 
 ## Governança
 
-- **Canon/GDD:** decisões oficiais e requisitos aprovados.
-- **Roteiro jogável:** tradução da narrativa para a experiência real da primeira sessão.
-- **Bíblia narrativa:** função, tom e limites dos personagens.
-- **Diálogos adaptativos:** copy e regras de linguagem dependentes do negócio escolhido.
-- **UX/UI, arte e áudio:** direcionamento de produção do primeiro APK.
-- **Planta/fluxo espacial:** implantação da primeira área e circulação de jogador/NPCs.
-- **Referências reais:** lastro visual e contextual do Laranjal e do Mar de Dentro.
-- **Marcos visuais:** elementos prioritários de reconhecimento da orla e regras de reprodução.
-- **Balanceamento:** valores provisórios para playtest; não economia definitiva.
-- **Backlog:** ideias exploratórias sem compromisso de implementação.
+- Canon/GDD: decisões oficiais e requisitos aprovados.
+- Roteiro jogável: tradução da narrativa para a experiência real da primeira sessão.
+- UX/UI, arte e áudio: direcionamento de produção da experiência web/Android.
+- Referências reais: lastro visual e contextual de Pelotas e Laranjal.
+- Balanceamento: valores provisórios para playtest; não economia definitiva.
+- Backlog: ideias exploratórias sem compromisso de implementação.
 - Mudanças de escopo devem atualizar os documentos relacionados.
-- Novas ideias não entram automaticamente na V0.1 depois do congelamento.
+
+## Marco anterior
+
+`PRE-PRODUCTION v1.0` — concluída.
 
 ## Marco atual
 
-**`PRE-PRODUCTION v1.0` — APROVADA.**
+**`FOUNDATION WEB v0.1` — EM IMPLEMENTAÇÃO.**
 
-A documentação passou por revisão cruzada e está liberada para início da implementação.
-
-## Próxima fase
-
-**`FOUNDATION v0.1`**
-
-Objetivo: criar a fundação Unity/Android, gerar um APK vazio e iniciar o graybox do core loop antes de produção artística relevante.
+A arquitetura foi migrada de Unity/Android-first para Phaser + TypeScript + React + Vite, mantendo Android via Capacitor. A prioridade agora é uma URL jogável do Laranjal e a validação do core loop antes da produção artística pesada.

@@ -1,81 +1,107 @@
 # Pelotas Tycoon — Arquitetura Técnica
 
-## Stack inicial
+## Decisão de arquitetura — agosto de 2026
 
-- Unity 6.3 LTS
-- C#
-- URP
-- Android
-- Git/GitHub
+A arquitetura oficial da V0.1 passa a ser **web-first, multiplataforma e orientada a entrega rápida de um vertical slice jogável**.
 
-A versão exata de patch do editor será fixada pelo arquivo `ProjectSettings/ProjectVersion.txt` no primeiro commit Unity. A família de produção da V0.1 permanece **Unity 6.3 LTS**.
+Unity deixa de ser a família de produção da V0.1. A motivação é reduzir o tempo até testes reais, aproveitar a stack web já dominada pela equipe e manter navegador + Android com um único core de gameplay.
 
-## Android baseline
+## Stack oficial
 
-- orientação baseline: portrait;
-- package/application id planejado: `com.agenciamobi.pelotastycoon`;
-- target para publicação futura: Android 16 / API 36 ou requisito mais recente obrigatório à época do envio;
-- `minSdk` será definido no graybox a partir da faixa de aparelhos de teste, sem reduzir compatibilidade arbitrariamente;
-- primeiro objetivo de distribuição: APK interno;
-- publicação futura: Android App Bundle (`.aab`) via Google Play.
+- Phaser 4.x — runtime do jogo 2D/2.5D.
+- TypeScript — linguagem principal.
+- React — HUD, menus, overlays e interfaces de aplicação.
+- Vite — desenvolvimento e build web.
+- Capacitor 8.x — empacotamento Android da aplicação web.
+- Git/GitHub.
+- Save local na V0.1.
+- Supabase nas fases online futuras.
 
-A política do Google Play passa a exigir Android 16/API 36 para novos apps e atualizações a partir de 31/08/2026. Por isso o projeto já nasce preparado para esse target, evitando dívida técnica imediatamente antes da publicação.
+## Plataformas
+
+### Web
+
+Primeira superfície de entrega e playtest. O jogo deve abrir por URL sem instalação e funcionar em navegadores modernos desktop e mobile.
+
+### Android
+
+A aplicação web será empacotada via Capacitor usando o application id:
+
+`com.agenciamobi.pelotastycoon`
+
+A publicação futura deve seguir o target Android exigido pela Google Play na data efetiva do envio. O projeto não fixa antecipadamente um target obsoleto como regra permanente.
 
 ## Princípios
 
-- Mobile-first.
-- Portrait-first na V0.1.
+- Web-first.
+- Mobile-first e responsivo.
+- Um único core de gameplay para web e Android.
 - Data-driven.
 - Componentes pequenos e especializados.
-- Separação entre gameplay, dados, UI e infraestrutura.
+- Separação entre gameplay, estado, UI e infraestrutura.
 - Nenhum segredo no repositório.
-- Nenhum SDK de publicidade no produto conforme o canon `zero ads`.
-- Arquitetura preparada para save local agora e sincronização online depois.
+- Nenhum SDK de publicidade conforme o canon `zero ads`.
+- Save local agora e sincronização online depois.
+- O core loop deve funcionar antes de arte final pesada.
 
-## Estrutura planejada
+## Estrutura inicial
 
 ```text
-Assets/
-├── Art/
-├── Audio/
-├── Data/
-├── Prefabs/
-├── Scenes/
-├── Scripts/
-│   ├── Core/
-│   ├── Player/
-│   ├── Customers/
-│   ├── Businesses/
-│   ├── Stations/
-│   ├── Economy/
-│   ├── Progression/
-│   ├── Save/
-│   └── UI/
-└── Tests/
+public/
+└── assets/
+    ├── branding/
+    ├── map/
+    ├── buildings/
+    ├── characters/
+    ├── audio/
+    └── ui/
+
+src/
+├── game/
+│   ├── scenes/
+│   ├── entities/
+│   ├── systems/
+│   ├── economy/
+│   ├── businesses/
+│   └── config/
+├── components/
+├── ui/
+├── stores/
+├── services/
+└── main.tsx
 ```
 
 ## Cenas iniciais
 
-- Boot
-- MainMenu
-- Laranjal
+- Boot/entrada da aplicação.
+- MainMenu.
+- Laranjal.
+- Business loop dentro da cena do Laranjal na primeira versão, podendo ser separado quando a complexidade exigir.
 
-## Serviços principais
+## Responsabilidades
 
-- GameManager
-- BusinessManager
-- CustomerManager
-- EconomyManager
-- ProgressionManager
-- SaveManager
-- UIManager
-- AudioManager
+### Phaser
 
-Evitar um `GameManager` monolítico. Cada serviço deve ter responsabilidade clara.
+- mapa e câmera;
+- entidades visuais;
+- personagem;
+- clientes e pedestres;
+- interação espacial;
+- animações;
+- efeitos e game feel.
 
-## Dados
+### React
 
-Negócios, produtos, estações, upgrades e diálogos devem ser configuráveis por dados. A implementação poderá usar ScriptableObjects inicialmente, mantendo uma camada que permita futura migração/espelhamento para configuração remota.
+- menu inicial;
+- HUD;
+- configurações;
+- modais;
+- painéis de gestão;
+- telas externas ao mundo jogável.
+
+### Core TypeScript
+
+Economia e regras de negócio não devem depender diretamente da renderização. Negócios, produtos, upgrades, clientes e balanceamento devem ser configuráveis por dados.
 
 Entidades conceituais:
 
@@ -87,29 +113,21 @@ Entidades conceituais:
 - CustomerProfile
 - SaveData
 
-Preços da V0.1 fazem parte dos dados do produto/negócio e não são editáveis pelo jogador.
+## Representação visual
 
-## Player
+A V0.1 adota 2.5D/cartoon estilizado. O primeiro graybox pode usar formas geométricas e assets provisórios. A perspectiva isométrica será aplicada progressivamente à medida que os tiles e assets definitivos entrarem.
 
-- joystick virtual;
-- movimento 3D;
-- câmera de acompanhamento;
-- inventário/stack simplificado para itens transportados;
-- interação automática por proximidade.
+## Input
 
-## Navegação de NPCs
-
-- Unity AI Navigation/NavMesh ou solução equivalente compatível com Unity 6.3;
-- destinos controlados por estado;
-- filas com posições reservadas;
-- pooling compartilhável entre clientes e pedestres ambientais;
-- comportamento lógico separado entre `AmbientPedestrian` e `Customer`.
+- toque como input primário;
+- clique do mouse equivalente;
+- teclado como conveniência no desktop;
+- interações operacionais simples e legíveis;
+- nenhuma funcionalidade essencial deve depender de hover.
 
 ## Persistência V0.1
 
-Save local versionado.
-
-O formato deve conter versão de schema para permitir migrações futuras.
+Save local versionado, inicialmente com APIs do navegador. A camada de persistência deve permitir migração posterior para IndexedDB e sincronização Supabase sem acoplar o gameplay ao backend.
 
 Exemplo conceitual:
 
@@ -125,26 +143,11 @@ SaveData
 
 ## Backend futuro
 
-Quando recursos online entrarem, Supabase é a opção preferencial inicial:
-
-- Auth;
-- PostgreSQL;
-- RLS;
-- RPC/Edge Functions quando necessário;
-- perfis;
-- negócios;
-- cloud save;
-- visitas;
-- amizades;
-- rankings;
-- eventos;
-- logs econômicos.
+Supabase permanece como preferência inicial para Auth, PostgreSQL, RLS, cloud save, visitas, amizades, rankings, eventos e logs econômicos.
 
 ## Multiplayer futuro
 
-Prioridade: multiplayer assíncrono.
-
-Visitar outro comércio significa carregar a configuração persistida daquele negócio e reconstruí-la localmente. Não é necessário sincronizar centenas de jogadores em tempo real para entregar a experiência social principal.
+Prioridade: multiplayer assíncrono. Visitar outro comércio significa carregar a configuração persistida daquele negócio e reconstruí-la localmente. Não é necessário sincronizar centenas de jogadores em tempo real para entregar a experiência social principal.
 
 ## Segurança futura
 
@@ -158,31 +161,35 @@ Quando ranking/economia online existirem:
 - separar configuração pública de segredos;
 - prever detecção de estados impossíveis.
 
-Quando Google Play Billing entrar, recibos e direitos digitais deverão ser validados de forma apropriada antes de conceder itens relevantes à conta.
-
 ## Performance
 
-- meta mínima inicial de 30 FPS estáveis em Android intermediário;
-- object pooling;
-- materiais compartilhados;
-- redução de overdraw;
-- texturas adequadas ao mobile;
-- luz baked sempre que vantajoso;
-- poucas luzes dinâmicas;
-- LOD/occlusion conforme a complexidade crescer;
-- profiling em aparelho real desde cedo.
+- meta inicial de 60 FPS em desktop e aparelhos mobile intermediários quando viável;
+- mínimo aceitável de 30 FPS estáveis nos aparelhos alvo;
+- object pooling para clientes e efeitos;
+- atlas/texturas compactas;
+- evitar overdraw e filtros caros sem valor visual claro;
+- reduzir tamanho de download;
+- lazy loading de regiões/assets conforme a cidade crescer;
+- profiling em aparelhos reais desde cedo.
+
+## Distribuição
+
+### Web
+
+Build estático Vite (`dist/`) apto a CDN/Vercel.
+
+### Android
+
+Capacitor usa o mesmo `dist/` como origem web. O fluxo previsto é:
+
+```bash
+npm run build
+npx cap sync android
+npx cap open android
+```
 
 ## Repositório
 
-Versionar:
+Versionar código, configuração, documentação e assets próprios/licenciados. Não versionar builds, caches, credenciais, keystores ou segredos.
 
-- Assets/
-- Packages/
-- ProjectSettings/
-- docs/
-
-Não versionar builds, caches Unity, credenciais, keystores ou segredos.
-
-Git LFS deverá ser configurado antes da entrada relevante de arquivos binários grandes.
-
-Como o repositório é público durante esta fase, assets de terceiros só podem ser commitados quando a licença permitir redistribuição pública no repositório.
+Assets de terceiros só podem ser commitados quando a licença permitir redistribuição pública no repositório.

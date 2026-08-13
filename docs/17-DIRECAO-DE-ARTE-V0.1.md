@@ -2,258 +2,133 @@
 
 ## Objetivo
 
-Definir a linguagem visual do primeiro APK sem depender de fotorealismo ou produção 3D cara.
+Definir uma linguagem visual própria, colorida e acessível, capaz de representar Pelotas de forma reconhecível sem depender de fotorealismo ou produção 3D pesada.
 
 ## 1. Direção geral
 
-- 3D estilizado;
-- leitura clara em tela pequena;
+- 2.5D/cartoon estilizado;
+- composição isométrica como direção principal do mapa;
+- cores vivas e acolhedoras;
 - formas simples e reconhecíveis;
-- cores agradáveis e contrastadas;
 - proporções levemente exageradas quando ajudarem a legibilidade;
-- cenário inspirado no Laranjal sem cópia fotogramétrica;
-- mobile-first.
+- leitura clara em tela pequena;
+- cenário inspirado em referências reais de Pelotas sem cópia fotogramétrica;
+- mobile-first, funcionando também no desktop.
 
 Referência conceitual:
 
-**casual tycoon moderno + identidade litorânea brasileira + Pelotas reconhecível**.
+**city builder/tycoon casual colorido + identidade litorânea brasileira + Pelotas reconhecível**.
 
 ## 2. O que deve comunicar Laranjal
 
-A V0.1 deve transmitir a região por conjunto de elementos, não por um único monumento.
-
-Elementos possíveis:
+A V0.1 deve transmitir a região por conjunto de elementos:
 
 - Lagoa dos Patos;
 - faixa de areia/orla;
 - calçadão;
 - vegetação;
+- Trapiche atual pós-enchente de 2024, sem a segunda casinha da configuração antiga;
 - postes e mobiliário urbano estilizados;
 - circulação de pedestres;
 - bicicletas como ambientação;
 - horizonte amplo;
 - luz de fim de tarde/verão;
-- sinalização com `Praia do Laranjal — Pelotas/RS`.
+- sinalização contextual de Praia do Laranjal/Pelotas.
 
-A pesquisa visual definitiva deve usar referências locais atuais antes da modelagem final.
+## 3. Marcos de Pelotas para expansão visual
 
-## 3. Não buscar fotorealismo
+A identidade do jogo pode incorporar progressivamente interpretações cartoon de pontos reconhecíveis já definidos no projeto, entre eles:
+
+- Chafariz das Nereidas;
+- quindim e tradição doceira de Pelotas;
+- topo/cúpula do Grande Hotel;
+- torre e relógio do Mercado Central;
+- Museu da Baronesa;
+- Trapiche do Laranjal.
+
+Esses elementos não precisam aparecer todos na V0.1 do mapa do Laranjal; formam um vocabulário visual para identidade, telas, mapa da cidade e regiões futuras.
+
+## 4. Não buscar fotorealismo
 
 Evitar:
 
-- texturas 4K desnecessárias;
-- iluminação pesada;
-- reprodução arquitetônica milimétrica na V0.1;
+- texturas 4K desnecessárias no gameplay;
+- filtros pesados;
+- reprodução arquitetônica milimétrica;
 - excesso de objetos pequenos;
-- materiais complexos sem valor de gameplay.
+- efeitos sem valor de gameplay;
+- assets que aumentem o download sem benefício perceptível.
 
 Prioridade:
 
-**reconhecimento + performance + charme visual**.
+**reconhecimento + performance + cor + personalidade**.
 
-## 4. Estabelecimento
+## 5. Estabelecimento
 
-O mesmo volume-base pode receber kits diferentes por negócio.
-
-Cada kit altera:
-
-- fachada;
-- placa;
-- paleta;
-- estação de produção;
-- balcão;
-- props temáticos;
-- produtos visuais.
-
-A silhueta geral pode permanecer compartilhada na V0.1.
-
-## 5. Identidade por negócio
-
-### Pizzaria
-
-- forno visível;
-- caixas/pratos de pizza;
-- elementos quentes;
-- comunicação visual associada a pizza.
-
-### Sorveteria
-
-- freezer/expositor;
-- recipientes/cones;
-- sensação refrescante;
-- linguagem visual mais leve.
-
-### Churrascaria
-
-- churrasqueira/grelha;
-- utensílios de preparo;
-- sensação de calor e robustez.
-
-### Lancheria
-
-- chapa;
-- embalagens;
-- balcão rápido;
-- visual urbano/casual.
-
-### Pastelaria
-
-- fritadeira;
-- cestos/bandejas;
-- balcão de giro rápido.
-
-### Peixaria
-
-- expositor/preparo coerente;
-- linguagem limpa;
-- produtos definidos somente após validação regional.
+O mesmo volume-base pode receber kits diferentes por negócio. Cada kit altera fachada, placa, paleta, estações, balcão, props e produtos visuais.
 
 ## 6. Produtos
 
-Produtos precisam ser reconhecíveis rapidamente de cima/ângulo de gameplay.
+Produtos precisam ser reconhecíveis rapidamente no ângulo isométrico.
 
 Regras:
 
 - silhueta clara;
 - escala levemente ampliada quando necessário;
-- evitar detalhes microscópicos;
-- cores diferenciadas entre produtos similares;
-- ícone 2D coerente com modelo 3D.
+- cores diferenciadas;
+- poucos detalhes microscópicos;
+- ícones 2D coerentes com os sprites/objetos do mundo.
 
 ## 7. Personagens
 
-Estilo modular para reduzir custo.
+Personagens cartoon modulares para reduzir custo e aumentar diversidade.
 
-Variações por:
-
-- cabelo;
-- roupa;
-- acessórios;
-- tons de pele;
-- pequenas variações de corpo/altura quando tecnicamente viáveis.
-
-Animações devem priorizar:
-
-- caminhada;
-- idle;
-- carregar item;
-- produzir/interagir;
-- receber pedido;
-- reação positiva;
-- reação negativa.
+Variações por cabelo, roupa, acessórios, tons de pele e pequenas diferenças de corpo/altura. As animações priorizam caminhada, idle, carregar item, produzir/interagir, receber pedido e reações.
 
 ## 8. Câmera
 
-A câmera precisa favorecer:
+A câmera deve favorecer leitura de filas, estações, deslocamento e expansão. A perspectiva isométrica pode usar pan/zoom limitado, evitando câmera cinematográfica durante a operação normal.
 
-- leitura da fila;
-- visão de estações;
-- deslocamento curto;
-- sensação de espaço.
+## 9. Água, céu e luz
 
-Evitar câmera cinematográfica durante operação normal.
+A Lagoa é parte central da identidade visual. Usar animação leve, reflexos estilizados e movimento simples. O céu e a iluminação reforçam atmosfera sem custo excessivo de renderização.
 
-Cinemachine pode ser usado para transições e abertura, mas gameplay precisa permanecer previsível.
+## 10. Efeitos
 
-## 9. Água e céu
+Efeitos reforçam produção concluída, dinheiro recebido, upgrade comprado, novo produto, funcionário contratado e marcos concluídos. Evitar poluição visual constante.
 
-A Lagoa é parte importante da identidade visual.
+## 11. UI visual
 
-Usar solução leve:
-
-- shader/material mobile adequado;
-- movimento discreto;
-- reflexos simplificados;
-- sem simulação física complexa.
-
-O céu deve reforçar atmosfera sem exigir volumetria pesada.
-
-## 10. Luz
-
-Prioridade para iluminação estável e barata.
-
-Preferir:
-
-- baked lighting quando aplicável;
-- poucas luzes realtime;
-- sombras controladas;
-- atmosfera clara.
-
-O primeiro APK não precisa de ciclo completo dia/noite.
-
-## 11. Efeitos
-
-Efeitos são usados para reforçar ação:
-
-- produção concluída;
-- dinheiro coletado;
-- upgrade comprado;
-- novo produto;
-- funcionário contratado;
-- marco concluído.
-
-Evitar partículas constantes que poluam a cena.
-
-## 12. UI visual
-
-A UI deve combinar com o mundo 3D:
+A UI deve combinar com o mundo cartoon:
 
 - cantos amigáveis;
-- tipografia legível;
+- tipografia muito legível;
 - iconografia simples;
-- pouca ornamentação;
+- cores vivas com contraste;
 - hierarquia forte;
-- não copiar identidade visual da MOBI como skin do jogo.
+- áreas de toque confortáveis;
+- identidade própria do Pelotas Tycoon, sem transformar a marca MOBI em skin do jogo.
 
-Pelotas Tycoon precisa possuir identidade própria, embora seja um produto da MOBI.
+## 12. Assets e licenças
 
-## 13. Assets de terceiros
+Assets prontos podem ser usados quando licenciados corretamente. Registrar origem, licença, comprovante quando houver e restrições de redistribuição. O repositório público não deve conter material cuja licença proíba redistribuição.
 
-Assets prontos podem ser usados na prototipagem e produção quando licenciados corretamente.
+## 13. Placeholders
 
-Registrar:
+O graybox pode usar formas Phaser, sprites provisórios e arte temporária. Nunca atrasar validação do loop aguardando arte final.
 
-- origem;
-- licença;
-- comprovante de aquisição quando houver;
-- permissões comerciais;
-- restrições de redistribuição.
+## 14. Meta visual da V0.1
 
-Nunca commitar pacotes cuja licença proíba redistribuição pública no repositório.
+A primeira versão pública não precisa parecer final, mas deve transmitir claramente:
 
-Como o repositório está público durante a fase inicial, essa regra é especialmente importante.
-
-## 14. Assets gerados/provisórios
-
-Placeholders podem usar:
-
-- primitives Unity;
-- materiais simples;
-- modelos temporários;
-- arte provisória.
-
-Nunca atrasar validação do loop aguardando arte final.
-
-## 15. Meta visual da V0.1
-
-O primeiro APK não precisa parecer produto final, mas deve ser reconhecível como um jogo e transmitir:
-
-- praia/orla;
-- Pelotas/Laranjal;
-- estabelecimento escolhido;
+- Laranjal/orla;
+- comércio;
 - clientes;
-- produção;
-- crescimento.
+- operação;
+- dinheiro/progressão;
+- charme cartoon;
+- identidade local.
 
-## 16. Critério de aceite
+## 15. Critério de aceite
 
-Uma captura de tela do gameplay deve permitir a alguém identificar, sem legenda externa:
-
-- que existe um comércio;
-- que há clientes;
-- qual categoria de negócio está ativa;
-- onde ocorre produção;
-- onde ocorre atendimento;
-- que o cenário é uma área de orla/praia.
-
-A identificação específica do Laranjal será refinada progressivamente com referências locais.
+Uma captura de tela deve permitir identificar que existe um comércio ativo, clientes, uma área de orla e elementos suficientes para reconhecer que o jogo possui uma identidade própria de Pelotas/Laranjal.
