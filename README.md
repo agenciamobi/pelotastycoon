@@ -4,7 +4,7 @@ Jogo tycoon 2.5D/cartoon ambientado em Pelotas/RS. O jogador começa com seu pri
 
 ## Status
 
-**FOUNDATION WEB v0.1 — em implementação.**
+**FOUNDATION WEB v0.1 — vertical slice do core loop em implementação.**
 
 A estratégia técnica foi alterada em agosto de 2026 para priorizar uma versão jogável no navegador rapidamente, mantendo o Android como plataforma oficial por meio da mesma base de código.
 
@@ -12,7 +12,7 @@ O primeiro vertical slice usa a Praia do Laranjal e valida o core loop antes da 
 
 ## V0.1
 
-A primeira versão jogável é focada em um único ponto comercial na Praia do Laranjal. O motor continuará preparado para as seis categorias definidas na pré-produção:
+A primeira versão jogável é focada em um único ponto comercial na Praia do Laranjal. O jogador escolhe entre:
 
 - Pizzaria
 - Sorveteria
@@ -21,7 +21,24 @@ A primeira versão jogável é focada em um único ponto comercial na Praia do L
 - Pastelaria
 - Peixaria
 
-Os negócios compartilham o mesmo motor de gameplay, adaptando produtos, equipamentos, falas, tempos, preços e identidade visual por configuração.
+Os negócios compartilham o mesmo motor de gameplay. Cada definição altera produto inicial, tempo de produção, valor de venda, intervalo de demanda e identidade visual sem duplicar o core loop.
+
+## Fluxo jogável atual
+
+1. Abrir ou continuar uma partida no navegador.
+2. Escolher o primeiro tipo de negócio.
+3. Entrar no ponto comercial no Laranjal.
+4. Mover o personagem por toque/clique ou teclado.
+5. Receber um pedido de cliente.
+6. Buscar insumos.
+7. Levar os insumos à estação de preparo.
+8. Aguardar a produção.
+9. Levar o produto pronto ao balcão.
+10. Recolher o pagamento no caixa.
+11. Acumular moedas e comprar a primeira melhoria.
+12. Persistir o progresso localmente.
+
+O tutorial é contextual: ações operacionais acontecem por proximidade, sem botão de produzir/entregar para cada etapa.
 
 ## Princípios
 
@@ -44,7 +61,7 @@ Os negócios compartilham o mesmo motor de gameplay, adaptando produtos, equipam
 - Capacitor
 - Web/PWA como primeira superfície testável
 - Android pela mesma base de código
-- Save local na V0.1
+- Save local versionado na V0.1
 - Supabase em fases online futuras
 
 ## Rodando localmente
@@ -66,16 +83,6 @@ Preparação Android, após adicionar a plataforma nativa:
 npx cap add android
 npm run cap:sync
 ```
-
-## Meta do primeiro vertical slice
-
-1. Abrir o jogo pelo navegador.
-2. Entrar no Laranjal.
-3. Mover o personagem por toque/clique.
-4. Comprar o primeiro ponto comercial.
-5. Receber clientes.
-6. Atender e gerar receita.
-7. Persistir o progresso localmente.
 
 ## Documentação
 
