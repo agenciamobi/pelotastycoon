@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import type { BusinessId } from './businesses';
-import { LaranjalScene } from './scenes/LaranjalScene';
+import { LaranjalIsometricScene } from './scenes/LaranjalIsometricScene';
 
 export function createGame(parent: HTMLElement, businessId: BusinessId) {
   return new Phaser.Game({
@@ -8,8 +8,8 @@ export function createGame(parent: HTMLElement, businessId: BusinessId) {
     parent,
     width: 720,
     height: 1280,
-    backgroundColor: '#8ed8f8',
-    scene: [new LaranjalScene(businessId)],
+    backgroundColor: '#8bdcf3',
+    scene: [new LaranjalIsometricScene(businessId)],
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH,
