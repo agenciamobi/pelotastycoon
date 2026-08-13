@@ -1,16 +1,18 @@
 # Pelotas Tycoon
 
-Jogo tycoon 3D ambientado em Pelotas/RS. O jogador começa com seu primeiro negócio na Praia do Laranjal, trabalha na operação, automatiza processos, administra clientes e funcionários e constrói sua trajetória empresarial pela cidade.
+Jogo tycoon 2.5D/cartoon ambientado em Pelotas/RS. O jogador começa com seu primeiro negócio na Praia do Laranjal, trabalha na operação, automatiza processos, administra clientes e funcionários e constrói sua trajetória empresarial pela cidade.
 
 ## Status
 
-**PRE-PRODUCTION v1.0 — revisão final aprovada para início da implementação.**
+**FOUNDATION WEB v0.1 — em implementação.**
 
-A V0.1 entra agora na fase de fundação Unity e graybox, mantendo o escopo documentado em `/docs`.
+A estratégia técnica foi alterada em agosto de 2026 para priorizar uma versão jogável no navegador rapidamente, mantendo o Android como plataforma oficial por meio da mesma base de código.
+
+O primeiro vertical slice usa a Praia do Laranjal e valida o core loop antes da produção artística pesada.
 
 ## V0.1
 
-A primeira versão de teste será focada em um único ponto comercial na Praia do Laranjal e permitirá escolher entre:
+A primeira versão jogável é focada em um único ponto comercial na Praia do Laranjal. O motor continuará preparado para as seis categorias definidas na pré-produção:
 
 - Pizzaria
 - Sorveteria
@@ -19,35 +21,61 @@ A primeira versão de teste será focada em um único ponto comercial na Praia d
 - Pastelaria
 - Peixaria
 
-Os seis negócios compartilharão o mesmo motor de gameplay, adaptando produtos, equipamentos, falas, tempos, preços e identidade visual por configuração.
+Os negócios compartilham o mesmo motor de gameplay, adaptando produtos, equipamentos, falas, tempos, preços e identidade visual por configuração.
 
 ## Princípios
 
 - Pelotas é parte do gameplay, não apenas cenário.
 - Começar pequeno e crescer faz parte da narrativa.
-- Mobile-first, portrait e controle simples.
+- Web-first sem abandonar Android.
+- Mobile-first e responsivo.
+- Arte 2.5D/cartoon colorida, reconhecível e acessível.
 - Gestão com consequência e automação gradual.
-- Zero anúncios: sem interstitial, rewarded ad ou SDK de publicidade.
-- Compras futuras são opcionais e não compram superioridade competitiva.
-- Sem pay-to-win competitivo.
-- Multiplayer social futuro priorizando arquitetura assíncrona.
+- Zero anúncios.
+- Compras futuras opcionais e sem pay-to-win competitivo.
+- Multiplayer social futuro prioritariamente assíncrono.
 
-## Tecnologia planejada
+## Stack
 
-- Unity 6.3 LTS
-- C#
-- URP
-- Android
-- Portrait como baseline da V0.1
-- Android 16 / API 36 como baseline de target para publicação futura
+- Phaser 4
+- TypeScript
+- React
+- Vite
+- Capacitor
+- Web/PWA como primeira superfície testável
+- Android pela mesma base de código
 - Save local na V0.1
 - Supabase em fases online futuras
 
-A versão exata de patch do Unity será fixada pelo `ProjectVersion.txt` no primeiro commit do projeto Unity.
+## Rodando localmente
 
-## Modelo comercial futuro
+```bash
+npm install
+npm run dev
+```
 
-A direção comercial é **free-to-play sem publicidade**, com compras opcionais dentro do jogo voltadas principalmente a personalização, cosméticos e conteúdo visual. A V0.1 não terá monetização.
+Build de produção:
+
+```bash
+npm run build
+```
+
+Preparação Android, após adicionar a plataforma nativa:
+
+```bash
+npx cap add android
+npm run cap:sync
+```
+
+## Meta do primeiro vertical slice
+
+1. Abrir o jogo pelo navegador.
+2. Entrar no Laranjal.
+3. Mover o personagem por toque/clique.
+4. Comprar o primeiro ponto comercial.
+5. Receber clientes.
+6. Atender e gerar receita.
+7. Persistir o progresso localmente.
 
 ## Documentação
 
