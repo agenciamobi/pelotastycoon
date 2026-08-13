@@ -10,7 +10,6 @@ import {
   GAME_SAVE_KEY,
   GAME_STATE_EVENT,
   initialSnapshot,
-  type GameAction,
   type GameSnapshot,
 } from '../events';
 
@@ -18,9 +17,18 @@ const MAX_QUEUE = 4;
 const UPGRADE_COST = 35;
 const UPGRADE_SPEED_MULTIPLIER = 0.8;
 
+const SPOTS = {
+  upgrade: { x: 170, y: 1140 },
+  raw: { x: 355, y: 1145 },
+  processor: { x: 490, y: 1145 },
+  counter: { x: 610, y: 1050 },
+  cash: { x: 610, y: 1160 },
+} as const;
+
 type Customer = {
   container: Phaser.GameObjects.Container;
-  body: Phaser.GameObjects.Arc;
+  body: Phaser.GameObjects.Rectangle;
+  patience: Phaser.GameObjects.Rectangle;
   arrivedAt: number;
   tutorial: boolean;
 };
@@ -32,9 +40,12 @@ type LegacySave = Partial<GameSnapshot> & {
 export class LaranjalScene extends Phaser.Scene {
   private snapshot: GameSnapshot = { ...initialSnapshot };
   private business!: BusinessDefinition;
-  private player?: Phaser.GameObjects.Arc;
-  private playerShadow?: Phaser.GameObjects.Ellipse;
-  private target = new Phaser.Math.Vector2(285, 1110);
+  private player?: Phaser.GameObjects.Container;
+  private avatar?: Phaser.GameObjects.Container;
+  private carryBadge?: Phaser.GameObjects.Container;
+  private carryText?: Phaser.GameObjects.Text;
+  private actionHalo?: Phaser.GameObjects.Arc;
+  private target = new Phaser.Math.Vector2(275, 1110);
   private customers: Customer[] = [];
   private queueLabel?: Phaser.GameObjects.Text;
   private processorStatus?: Phaser.GameObjects.Text;
@@ -46,6 +57,7 @@ export class LaranjalScene extends Phaser.Scene {
   private carrying: 'raw' | 'product' | null = null;
   private processingStartedAt = 0;
   private processingDuration = 0;
+  private lastFacing = 1;
   private resetHandler = () => this.resetGame();
 
   constructor(private readonly requestedBusinessId: BusinessId) {
@@ -60,6 +72,7 @@ export class LaranjalScene extends Phaser.Scene {
     this.drawWorld();
     this.createBusiness();
     this.createPlayer();
+    this.createActionHalo();
     this.createInput();
     this.cursors = this.input.keyboard?.createCursorKeys();
     this.refreshUpgradeVisual();
@@ -93,8 +106,8 @@ export class LaranjalScene extends Phaser.Scene {
       this.markMovementStarted();
       keyboardVector.normalize();
       this.target.set(
-        Phaser.Math.Clamp(this.player.x + keyboardVector.x * 180, 80, 655),
-        Phaser.Math.Clamp(this.player.y + keyboardVector.y * 180, 905, 1215),
+        Phaser.Math.Clamp(this.player.x + keyboardVector.x * 180, 70, 650),
+        Phaser.Math.Clamp(this.player.y + keyboardVector.y * 180, 930, 1215),
       );
     }
 
@@ -104,10 +117,10 @@ export class LaranjalScene extends Phaser.Scene {
       const speed = 0.33 * delta;
       this.player.x += direction.x * speed;
       this.player.y += direction.y * speed;
-      if (this.playerShadow) {
-        this.playerShadow.x = this.player.x;
-        this.playerShadow.y = this.player.y + 24;
-      }
+      this.player.setDepth(20 + Math.floor(this.player.y / 18));
+
+      if (Math.abs(direction.x) > 0.05) this.lastFacing = direction.x > 0 ? 1 : -1;
+      if (this.avatar) this.avatar.scaleX = this.lastFacing;
     }
 
     this.updateProcessing();
@@ -116,161 +129,380 @@ export class LaranjalScene extends Phaser.Scene {
   }
 
   private drawWorld() {
-    const graphics = this.add.graphics();
-    graphics.fillStyle(0x8ed8f8, 1);
-    graphics.fillRect(0, 0, 720, 1280);
+    const g = this.add.graphics();
 
-    graphics.fillStyle(0xffd36a, 1);
-    graphics.fillCircle(600, 130, 62);
-    graphics.fillStyle(0xffffff, 0.72);
-    graphics.fillCircle(130, 120, 34);
-    graphics.fillCircle(170, 110, 48);
-    graphics.fillCircle(215, 125, 32);
+    // Céu e horizonte.
+    g.fillStyle(0x80d1ef, 1);
+    g.fillRect(0, 0, 720, 220);
+    g.fillStyle(0xa6e1f4, 1);
+    g.fillRect(0, 165, 720, 55);
+    this.drawCloud(125, 105, 0.85);
+    this.drawCloud(535, 85, 0.62);
 
-    graphics.fillStyle(0x1b8bd3, 1);
-    graphics.fillRect(0, 250, 720, 290);
-    for (let y = 285; y < 520; y += 38) {
-      graphics.lineStyle(7, 0x6fc8ef, 0.75);
-      graphics.beginPath();
-      graphics.moveTo(0, y);
-      graphics.lineTo(720, y + 18);
-      graphics.strokePath();
+    const sun = this.add.circle(610, 120, 48, 0xffcf64).setDepth(1);
+    this.tweens.add({ targets: sun, alpha: 0.84, yoyo: true, repeat: -1, duration: 1800 });
+
+    // Lagoa dos Patos em três planos.
+    g.fillStyle(0x198fc7, 1);
+    g.fillRect(0, 220, 720, 305);
+    g.fillStyle(0x20a2d9, 1);
+    g.fillRect(0, 235, 720, 90);
+    g.fillStyle(0x0d79b1, 0.55);
+    g.fillRect(0, 420, 720, 105);
+    for (let y = 265; y < 510; y += 38) {
+      g.lineStyle(4, 0x8adcf3, 0.62);
+      g.beginPath();
+      g.moveTo(-20, y);
+      g.lineTo(220, y + 8);
+      g.lineTo(455, y - 3);
+      g.lineTo(740, y + 10);
+      g.strokePath();
     }
 
-    graphics.fillStyle(0xf4d28b, 1);
-    graphics.fillRect(0, 540, 720, 150);
+    // Praia e calçadão.
+    g.fillStyle(0xf2d28c, 1);
+    g.fillRect(0, 525, 720, 112);
+    g.fillStyle(0xe4b86f, 1);
+    g.fillRect(0, 637, 720, 20);
+    g.fillStyle(0xd89b59, 1);
+    g.fillRect(0, 657, 720, 102);
+    g.lineStyle(3, 0xb7773d, 0.45);
+    for (let x = -40; x < 760; x += 72) g.lineBetween(x, 657, x + 32, 759);
+    g.lineStyle(2, 0xf2c68a, 0.45);
+    for (let y = 686; y < 755; y += 32) g.lineBetween(0, y, 720, y);
 
-    graphics.fillStyle(0xd59a5e, 1);
-    graphics.fillRect(0, 690, 720, 150);
-    graphics.lineStyle(4, 0xb17642, 0.7);
-    for (let x = 0; x < 720; x += 72) graphics.lineBetween(x, 690, x, 840);
+    // Faixa verde, árvores e postes.
+    g.fillStyle(0x5fb657, 1);
+    g.fillRect(0, 759, 720, 72);
+    this.drawTree(65, 806, 0.82);
+    this.drawTree(650, 806, 0.9);
+    this.drawLamp(150, 808);
+    this.drawLamp(555, 808);
 
-    graphics.fillStyle(0x44515e, 1);
-    graphics.fillRect(0, 840, 720, 160);
-    graphics.fillStyle(0xf7e9a0, 1);
-    for (let x = 22; x < 720; x += 92) graphics.fillRect(x, 915, 55, 8);
+    // Avenida + ciclovia.
+    g.fillStyle(0x43515c, 1);
+    g.fillRect(0, 831, 720, 112);
+    g.fillStyle(0xf6df77, 1);
+    for (let x = 22; x < 720; x += 112) g.fillRect(x, 884, 60, 6);
+    g.fillStyle(0x57b6a2, 1);
+    g.fillRect(0, 943, 720, 31);
+    g.fillStyle(0xffffff, 0.72);
+    for (let x = 24; x < 720; x += 105) g.fillRect(x, 956, 55, 4);
 
-    graphics.fillStyle(0x86c95a, 1);
-    graphics.fillRect(0, 1000, 720, 280);
+    // Lote do primeiro negócio.
+    g.fillStyle(0x79c95a, 1);
+    g.fillRect(0, 974, 720, 306);
+    g.fillStyle(0x6dbb51, 1);
+    g.fillTriangle(0, 974, 720, 974, 720, 1042);
+    g.fillStyle(0xe8d8b8, 1);
+    g.fillRoundedRect(92, 1008, 595, 250, 34);
+    g.fillStyle(0xbca77f, 0.35);
+    g.fillEllipse(430, 1242, 520, 54);
 
-    // Trapiche atual: interpretação estilizada com apenas um abrigo.
-    graphics.fillStyle(0x7b4b2c, 1);
-    graphics.fillRect(292, 330, 34, 300);
-    graphics.fillRect(382, 330, 34, 300);
-    graphics.fillStyle(0x9d633a, 1);
-    graphics.fillRect(292, 330, 124, 28);
-    graphics.fillStyle(0x644027, 1);
-    graphics.fillTriangle(270, 330, 438, 330, 354, 270);
-    graphics.lineStyle(8, 0x65412a, 1);
-    graphics.lineBetween(354, 358, 630, 530);
-    graphics.lineBetween(390, 358, 666, 530);
+    this.drawTrapiche();
 
-    this.add.text(28, 36, 'PRAIA DO LARANJAL', {
+    this.add.text(26, 30, 'PRAIA DO LARANJAL', {
       fontFamily: 'system-ui, sans-serif',
-      fontSize: '34px',
+      fontSize: '31px',
       fontStyle: 'bold',
-      color: '#073763',
+      color: '#075078',
       stroke: '#ffffff',
       strokeThickness: 8,
-    });
-    this.add.text(30, 82, 'Pelotas • RS', {
-      fontFamily: 'system-ui, sans-serif',
-      fontSize: '22px',
-      color: '#174f73',
-    });
+    }).setDepth(4);
 
-    this.add.text(26, 650, 'ORLA', {
+    const badge = this.add.container(30, 78).setDepth(4);
+    const plate = this.add.rectangle(0, 0, 136, 30, 0xffffff, 0.88).setOrigin(0, 0.5);
+    const dot = this.add.circle(14, 0, 5, 0xe95f3d);
+    const label = this.add.text(26, 0, 'Pelotas • RS', {
       fontFamily: 'system-ui, sans-serif',
       fontSize: '15px',
       fontStyle: 'bold',
-      color: '#7a552c',
-      backgroundColor: '#fff4d6cc',
-      padding: { x: 9, y: 5 },
-    });
+      color: '#35667e',
+    }).setOrigin(0, 0.5);
+    badge.add([plate, dot, label]);
+
+    this.add.text(24, 604, 'ORLA DO LARANJAL', {
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '12px',
+      fontStyle: 'bold',
+      color: '#704e28',
+      backgroundColor: '#fff4d6dd',
+      padding: { x: 10, y: 6 },
+    }).setDepth(4);
+  }
+
+  private drawCloud(x: number, y: number, scale: number) {
+    const cloud = this.add.container(x, y).setScale(scale).setDepth(1);
+    cloud.add([
+      this.add.ellipse(-42, 8, 74, 42, 0xffffff, 0.82),
+      this.add.ellipse(0, 0, 94, 58, 0xffffff, 0.9),
+      this.add.ellipse(45, 9, 78, 44, 0xffffff, 0.82),
+    ]);
+    this.tweens.add({ targets: cloud, x: x + 24, yoyo: true, repeat: -1, duration: 6500 });
+  }
+
+  private drawTree(x: number, y: number, scale: number) {
+    const tree = this.add.container(x, y).setScale(scale).setDepth(6);
+    tree.add([
+      this.add.ellipse(0, 15, 72, 20, 0x234119, 0.18),
+      this.add.rectangle(0, -8, 14, 58, 0x86522d).setOrigin(0.5, 1),
+      this.add.circle(-18, -64, 28, 0x2f8f4b),
+      this.add.circle(20, -62, 31, 0x3da75b),
+      this.add.circle(0, -88, 34, 0x4fba64),
+    ]);
+  }
+
+  private drawLamp(x: number, y: number) {
+    const lamp = this.add.container(x, y).setDepth(6);
+    lamp.add([
+      this.add.rectangle(0, -38, 8, 82, 0x4f616a).setOrigin(0.5, 1),
+      this.add.rectangle(12, -117, 28, 5, 0x4f616a),
+      this.add.circle(26, -117, 9, 0xfff4bc).setStrokeStyle(3, 0x4f616a),
+    ]);
+  }
+
+  private drawTrapiche() {
+    const g = this.add.graphics().setDepth(3);
+
+    // Passarela em perspectiva e apenas um abrigo, conforme o Trapiche atual.
+    g.fillStyle(0x70462c, 1);
+    g.fillTriangle(405, 565, 468, 565, 382, 330);
+    g.fillTriangle(468, 565, 508, 565, 418, 330);
+    g.fillStyle(0xa36b3d, 1);
+    g.fillTriangle(412, 555, 495, 555, 403, 338);
+
+    g.lineStyle(4, 0x5b3926, 1);
+    g.lineBetween(407, 555, 382, 333);
+    g.lineBetween(500, 555, 418, 333);
+    for (let t = 0; t <= 1; t += 0.13) {
+      const lx = Phaser.Math.Linear(407, 382, t);
+      const rx = Phaser.Math.Linear(500, 418, t);
+      const y = Phaser.Math.Linear(555, 333, t);
+      g.lineBetween(lx, y, lx - 7, y + 25);
+      g.lineBetween(rx, y, rx + 7, y + 25);
+    }
+
+    g.fillStyle(0x6a4028, 1);
+    g.fillRect(370, 300, 12, 54);
+    g.fillRect(418, 300, 12, 54);
+    g.fillStyle(0x8f5b36, 1);
+    g.fillRect(362, 289, 76, 18);
+    g.fillStyle(0x54331f, 1);
+    g.fillTriangle(350, 292, 450, 292, 400, 254);
+    g.fillStyle(0xb77943, 0.65);
+    g.fillTriangle(366, 289, 432, 289, 400, 263);
   }
 
   private createBusiness() {
     const accent = this.business.color;
+    const dark = this.shade(accent, 0.76);
 
-    this.add.ellipse(500, 1200, 360, 70, 0x234119, 0.2);
-    this.add.rectangle(505, 1110, 345, 245, 0xfffbef).setStrokeStyle(8, accent);
-    this.add.rectangle(505, 1012, 345, 50, accent).setStrokeStyle(5, 0xffffff);
+    this.add.ellipse(495, 1217, 390, 72, 0x274c22, 0.22).setDepth(7);
 
-    this.add.text(505, 1012, this.business.name.toUpperCase(), {
+    const building = this.add.graphics().setDepth(8);
+    building.fillStyle(0xfef9ed, 1);
+    building.fillRoundedRect(295, 1020, 375, 224, 24);
+    building.lineStyle(6, dark, 1);
+    building.strokeRoundedRect(295, 1020, 375, 224, 24);
+    building.fillStyle(dark, 1);
+    building.fillRoundedRect(282, 992, 401, 54, 18);
+    building.fillStyle(accent, 1);
+    building.fillRoundedRect(296, 1001, 373, 45, 14);
+
+    // Marquise listrada.
+    for (let i = 0; i < 7; i += 1) {
+      const x = 300 + i * 53;
+      building.fillStyle(i % 2 === 0 ? 0xffffff : accent, 0.96);
+      building.fillTriangle(x, 1040, x + 26, 1068, x + 53, 1040);
+    }
+
+    this.add.text(482, 1022, this.business.name.toUpperCase(), {
       fontFamily: 'system-ui, sans-serif',
-      fontSize: '20px',
+      fontSize: '21px',
       fontStyle: 'bold',
       color: '#ffffff',
-      align: 'center',
-    }).setOrigin(0.5);
+      stroke: '#29485c',
+      strokeThickness: 3,
+    }).setOrigin(0.5).setDepth(13);
 
-    this.createStation(390, 1140, 92, 80, 0x4f9fd3, 'INSUMOS');
-    this.createStation(505, 1140, 92, 80, 0xf5b940, 'PREPARO');
-    this.createStation(610, 1055, 112, 70, 0x69bd66, 'BALCÃO');
-    this.createStation(610, 1160, 92, 72, 0xf2d44f, 'CAIXA');
+    this.createRawStation();
+    this.createProcessorStation();
+    this.createCounterStation(accent);
+    this.createCashStation();
 
-    this.processorStatus = this.add.text(505, 1191, this.business.starterProduct, {
+    this.processorStatus = this.add.text(SPOTS.processor.x, 1210, this.business.starterProduct, {
       fontFamily: 'system-ui, sans-serif',
-      fontSize: '12px',
-      color: '#5f4a19',
-      align: 'center',
-      wordWrap: { width: 115 },
-    }).setOrigin(0.5);
-
-    this.queueLabel = this.add.text(120, 962, '', {
-      fontFamily: 'system-ui, sans-serif',
-      fontSize: '17px',
+      fontSize: '11px',
       fontStyle: 'bold',
-      color: '#14314c',
+      color: '#6d5228',
+      align: 'center',
+      wordWrap: { width: 118 },
+    }).setOrigin(0.5).setDepth(13);
+
+    this.queueLabel = this.add.text(24, 931, '', {
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '13px',
+      fontStyle: 'bold',
+      color: '#173d55',
       backgroundColor: '#ffffffdd',
-      padding: { x: 11, y: 6 },
-    }).setOrigin(0, 0.5);
+      padding: { x: 10, y: 6 },
+    }).setOrigin(0, 0.5).setDepth(16);
 
-    this.upgradePad = this.add.rectangle(190, 1140, 130, 92, 0x9aa9b0, 0.75).setStrokeStyle(5, 0xffffff);
-    this.upgradeLabel = this.add.text(190, 1140, `MELHORIA\n${UPGRADE_COST} moedas`, {
-      fontFamily: 'system-ui, sans-serif',
-      fontSize: '15px',
-      fontStyle: 'bold',
-      color: '#ffffff',
-      align: 'center',
-    }).setOrigin(0.5);
+    this.createUpgradeZone();
   }
 
-  private createStation(x: number, y: number, width: number, height: number, color: number, label: string) {
-    this.add.rectangle(x, y, width, height, color, 0.95).setStrokeStyle(5, 0xffffff);
-    this.add.text(x, y - 4, label, {
+  private createRawStation() {
+    const c = this.add.container(SPOTS.raw.x, SPOTS.raw.y).setDepth(12);
+    c.add([
+      this.add.ellipse(0, 34, 100, 24, 0x173246, 0.14),
+      this.add.rectangle(0, 2, 96, 80, 0x4c9fd1).setStrokeStyle(5, 0xffffff),
+      this.add.rectangle(0, -34, 100, 19, 0x87d5ee).setStrokeStyle(3, 0x2f759a),
+      this.add.rectangle(0, -34, 28, 5, 0x2f759a),
+      this.add.text(0, 8, 'INSUMOS', {
+        fontFamily: 'system-ui, sans-serif', fontSize: '13px', fontStyle: 'bold', color: '#ffffff',
+      }).setOrigin(0.5),
+    ]);
+  }
+
+  private createProcessorStation() {
+    const c = this.add.container(SPOTS.processor.x, SPOTS.processor.y).setDepth(12);
+    c.add([
+      this.add.ellipse(0, 34, 102, 24, 0x173246, 0.14),
+      this.add.rectangle(0, 4, 100, 78, 0xf3b740).setStrokeStyle(5, 0xffffff),
+      this.add.rectangle(0, -34, 106, 16, 0xffd575).setStrokeStyle(3, 0xc38322),
+      this.add.circle(-22, -34, 9, 0x72572e, 0.78),
+      this.add.circle(22, -34, 9, 0x72572e, 0.78),
+      this.add.text(0, 10, 'PREPARO', {
+        fontFamily: 'system-ui, sans-serif', fontSize: '13px', fontStyle: 'bold', color: '#ffffff',
+      }).setOrigin(0.5),
+    ]);
+  }
+
+  private createCounterStation(accent: number) {
+    const c = this.add.container(SPOTS.counter.x, SPOTS.counter.y).setDepth(12);
+    c.add([
+      this.add.ellipse(0, 31, 124, 22, 0x173246, 0.14),
+      this.add.rectangle(0, 4, 120, 65, this.shade(accent, 0.88)).setStrokeStyle(5, 0xffffff),
+      this.add.rectangle(0, -26, 105, 28, 0xcdf3ff, 0.72).setStrokeStyle(3, 0x4c8ca5),
+      this.add.rectangle(0, -43, 122, 10, 0xffffff, 0.94),
+      this.add.text(0, 8, 'BALCÃO', {
+        fontFamily: 'system-ui, sans-serif', fontSize: '12px', fontStyle: 'bold', color: '#ffffff',
+      }).setOrigin(0.5),
+    ]);
+  }
+
+  private createCashStation() {
+    const c = this.add.container(SPOTS.cash.x, SPOTS.cash.y).setDepth(12);
+    c.add([
+      this.add.ellipse(0, 30, 94, 22, 0x173246, 0.14),
+      this.add.rectangle(0, 5, 94, 66, 0xf1cf4b).setStrokeStyle(5, 0xffffff),
+      this.add.rectangle(0, -23, 46, 30, 0x455561).setStrokeStyle(3, 0xffffff),
+      this.add.rectangle(0, -29, 26, 9, 0xa9e7a8),
+      this.add.text(0, 11, 'CAIXA', {
+        fontFamily: 'system-ui, sans-serif', fontSize: '12px', fontStyle: 'bold', color: '#73551b',
+      }).setOrigin(0.5),
+    ]);
+  }
+
+  private createUpgradeZone() {
+    this.add.ellipse(SPOTS.upgrade.x, SPOTS.upgrade.y + 38, 140, 26, 0x173246, 0.14).setDepth(10);
+    this.upgradePad = this.add.rectangle(SPOTS.upgrade.x, SPOTS.upgrade.y, 132, 90, 0x98a5a9, 0.86)
+      .setStrokeStyle(4, 0xffffff)
+      .setDepth(10);
+    this.add.text(SPOTS.upgrade.x, SPOTS.upgrade.y - 27, '↑', {
+      fontFamily: 'system-ui, sans-serif', fontSize: '27px', fontStyle: 'bold', color: '#ffffff',
+    }).setOrigin(0.5).setDepth(11);
+    this.upgradeLabel = this.add.text(SPOTS.upgrade.x, SPOTS.upgrade.y + 17, `MELHORIA\n${UPGRADE_COST} moedas`, {
       fontFamily: 'system-ui, sans-serif',
-      fontSize: '14px',
+      fontSize: '12px',
       fontStyle: 'bold',
       color: '#ffffff',
       align: 'center',
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setDepth(11);
   }
 
   private createPlayer() {
-    this.playerShadow = this.add.ellipse(285, 1134, 54, 20, 0x173246, 0.22).setDepth(9);
-    const player = this.add.circle(285, 1110, 27, 0xff6f3d).setStrokeStyle(7, 0xffffff);
-    player.setDepth(10);
+    const player = this.add.container(275, 1110).setDepth(40);
+    const shadow = this.add.ellipse(0, 31, 56, 18, 0x173246, 0.2);
+
+    const leftLeg = this.add.rectangle(-10, 18, 11, 26, 0x244d78).setOrigin(0.5, 0);
+    const rightLeg = this.add.rectangle(10, 18, 11, 26, 0x244d78).setOrigin(0.5, 0);
+    const body = this.add.rectangle(0, 0, 42, 54, 0xff7043).setStrokeStyle(4, 0xffffff);
+    const armLeft = this.add.rectangle(-24, 2, 10, 34, 0xe8a073).setAngle(10);
+    const armRight = this.add.rectangle(24, 2, 10, 34, 0xe8a073).setAngle(-10);
+    const head = this.add.circle(0, -40, 22, 0xefb080).setStrokeStyle(4, 0xffffff);
+    const hair = this.add.ellipse(0, -50, 38, 18, 0x3e2c28);
+    const eye1 = this.add.circle(-7, -39, 2.5, 0x25323b);
+    const eye2 = this.add.circle(7, -39, 2.5, 0x25323b);
+    this.avatar = this.add.container(0, 0, [leftLeg, rightLeg, body, armLeft, armRight, head, hair, eye1, eye2]);
+
+    this.carryBadge = this.add.container(0, -82).setVisible(false);
+    const carryPlate = this.add.rectangle(0, 0, 82, 32, 0xffffff, 0.96).setStrokeStyle(3, 0x23536f);
+    this.carryText = this.add.text(0, 0, '', {
+      fontFamily: 'system-ui, sans-serif', fontSize: '10px', fontStyle: 'bold', color: '#173d55',
+    }).setOrigin(0.5);
+    this.carryBadge.add([carryPlate, this.carryText]);
+
+    player.add([shadow, this.avatar, this.carryBadge]);
     this.player = player;
     this.target.set(player.x, player.y);
 
     this.tweens.add({
-      targets: player,
-      scaleY: 0.92,
+      targets: [leftLeg, rightLeg],
+      scaleY: 0.84,
       yoyo: true,
       repeat: -1,
-      duration: 420,
+      duration: 360,
       ease: 'Sine.easeInOut',
     });
   }
 
+  private setCarry(value: 'raw' | 'product' | null) {
+    this.carrying = value;
+    this.carryBadge?.setVisible(Boolean(value));
+    this.carryText?.setText(value === 'raw' ? 'INSUMOS' : value === 'product' ? 'PEDIDO' : '');
+  }
+
+  private createActionHalo() {
+    this.actionHalo = this.add.circle(0, 0, 55, 0xffffff, 0)
+      .setStrokeStyle(5, 0xffffff, 0.85)
+      .setDepth(9)
+      .setVisible(false);
+    this.tweens.add({
+      targets: this.actionHalo,
+      scale: 1.14,
+      alpha: 0.4,
+      yoyo: true,
+      repeat: -1,
+      duration: 620,
+    });
+  }
+
+  private refreshActionHalo() {
+    if (!this.actionHalo) return;
+
+    let spot: { x: number; y: number } | null = null;
+    if (this.snapshot.action === 'collectRaw') spot = SPOTS.raw;
+    else if (this.snapshot.action === 'bringRaw' || this.snapshot.action === 'ready') spot = SPOTS.processor;
+    else if (this.snapshot.action === 'deliver') spot = SPOTS.counter;
+    else if (this.snapshot.action === 'collectPayment') spot = SPOTS.cash;
+    else if (this.snapshot.action === 'free' && this.snapshot.canUpgrade && this.snapshot.upgradeLevel === 0) spot = SPOTS.upgrade;
+
+    if (!spot) {
+      this.actionHalo.setVisible(false);
+      return;
+    }
+
+    this.actionHalo.setPosition(spot.x, spot.y).setVisible(true);
+  }
+
   private createInput() {
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      if (pointer.y < 880) return;
+      if (pointer.y < 900) return;
       this.markMovementStarted();
       this.target.set(
-        Phaser.Math.Clamp(pointer.x, 80, 655),
-        Phaser.Math.Clamp(pointer.y, 905, 1215),
+        Phaser.Math.Clamp(pointer.x, 70, 650),
+        Phaser.Math.Clamp(pointer.y, 930, 1215),
       );
     });
   }
@@ -280,7 +512,7 @@ export class LaranjalScene extends Phaser.Scene {
 
     this.snapshot.action = 'awaitingCustomer';
     this.snapshot.objective = 'Seu primeiro cliente está chegando pela orla.';
-    this.snapshot.message = 'Explore o ponto enquanto espera. O atendimento será por proximidade.';
+    this.snapshot.message = 'Explore o ponto enquanto espera. As ações acontecem por proximidade.';
     this.emitState();
     this.scheduleNextCustomer(1200, true);
   }
@@ -300,28 +532,40 @@ export class LaranjalScene extends Phaser.Scene {
     if (this.customers.length >= MAX_QUEUE) return;
 
     const queueIndex = this.customers.length;
-    const targetX = 115 + queueIndex * 105;
-    const y = 930;
-    const palette = [0xe45d87, 0x7f66d8, 0x34b5a5, 0xf29f3d, 0x4f8edb];
-    const color = palette[queueIndex % palette.length];
+    const targetX = 105 + queueIndex * 122;
+    const y = 900;
+    const colors = [0xe45d87, 0x7f66d8, 0x34b5a5, 0xf29f3d, 0x4f8edb];
+    const shirts = [0x2c8eb8, 0xdf6f46, 0x7057bd, 0x3ba579, 0xd39a32];
+    const hairColor = colors[(queueIndex + this.snapshot.served) % colors.length];
+    const shirt = shirts[(queueIndex + this.snapshot.served) % shirts.length];
 
-    const shadow = this.add.ellipse(0, 22, 48, 18, 0x173246, 0.2);
-    const body = this.add.circle(0, 0, 24, color).setStrokeStyle(6, 0xffffff);
-    const order = this.add.text(0, -52, this.business.starterProduct, {
+    const shadow = this.add.ellipse(0, 31, 50, 16, 0x173246, 0.18);
+    const legs = this.add.rectangle(0, 16, 27, 25, 0x344f70).setOrigin(0.5, 0);
+    const body = this.add.rectangle(0, -2, 38, 48, shirt).setStrokeStyle(4, 0xffffff);
+    const head = this.add.circle(0, -39, 19, 0xefb080).setStrokeStyle(4, 0xffffff);
+    const hair = this.add.ellipse(0, -48, 32, 14, hairColor);
+    const eye1 = this.add.circle(-6, -38, 2, 0x26323a);
+    const eye2 = this.add.circle(6, -38, 2, 0x26323a);
+
+    const bubble = this.add.rectangle(0, -94, 126, 52, 0xffffff, 0.96).setStrokeStyle(3, 0x2d617e);
+    const order = this.add.text(0, -95, this.business.starterProduct, {
       fontFamily: 'system-ui, sans-serif',
-      fontSize: '13px',
+      fontSize: '11px',
       fontStyle: 'bold',
       color: '#17304a',
-      backgroundColor: '#ffffffee',
-      padding: { x: 7, y: 5 },
       align: 'center',
-      wordWrap: { width: 118 },
+      wordWrap: { width: 108 },
     }).setOrigin(0.5);
+    const patienceBg = this.add.rectangle(0, -62, 72, 7, 0x173246, 0.18);
+    const patience = this.add.rectangle(-36, -62, 72, 7, 0x55b86a, 1).setOrigin(0, 0.5);
 
-    const container = this.add.container(-80, y, [shadow, body, order]).setDepth(8);
-    this.customers.push({ container, body, arrivedAt: this.time.now, tutorial });
+    const container = this.add.container(-90, y, [
+      shadow, legs, body, head, hair, eye1, eye2, bubble, order, patienceBg, patience,
+    ]).setDepth(18);
 
-    this.tweens.add({ targets: container, x: targetX, duration: 520, ease: 'Sine.easeOut' });
+    this.customers.push({ container, body, patience, arrivedAt: this.time.now, tutorial });
+    this.tweens.add({ targets: container, x: targetX, duration: 600, ease: 'Back.easeOut' });
+
     this.snapshot.queue = this.customers.length;
     this.snapshot.message = tutorial
       ? `Primeiro pedido: ${this.business.starterProduct}.`
@@ -329,7 +573,7 @@ export class LaranjalScene extends Phaser.Scene {
 
     if (this.snapshot.action === 'awaitingCustomer' || this.snapshot.action === 'free') {
       this.snapshot.action = 'collectRaw';
-      this.snapshot.objective = 'Pegue os insumos na estação INSUMOS.';
+      this.snapshot.objective = 'Pegue os insumos no freezer de INSUMOS.';
     }
 
     this.refreshQueueVisual();
@@ -348,7 +592,7 @@ export class LaranjalScene extends Phaser.Scene {
 
     this.processingDuration = 0;
     this.snapshot.action = 'ready';
-    this.snapshot.objective = `Pegue ${this.business.starterProduct} na estação PREPARO.`;
+    this.snapshot.objective = `Pegue ${this.business.starterProduct} na bancada de PREPARO.`;
     this.snapshot.message = 'Pedido pronto para levar ao balcão.';
     this.processorStatus?.setText(`${this.business.starterProduct}\nPRONTO`);
     this.emitState();
@@ -357,26 +601,26 @@ export class LaranjalScene extends Phaser.Scene {
   private checkProximityInteractions() {
     if (!this.player) return;
 
-    if (this.snapshot.canUpgrade && this.snapshot.upgradeLevel === 0 && this.distanceTo(190, 1140) < 66) {
+    if (this.snapshot.canUpgrade && this.snapshot.upgradeLevel === 0 && this.distanceTo(SPOTS.upgrade.x, SPOTS.upgrade.y) < 66) {
       this.buyUpgrade();
     }
 
     switch (this.snapshot.action) {
       case 'collectRaw':
-        if (this.distanceTo(390, 1140) < 62) {
-          this.carrying = 'raw';
+        if (this.distanceTo(SPOTS.raw.x, SPOTS.raw.y) < 62) {
+          this.setCarry('raw');
           this.snapshot.action = 'bringRaw';
-          this.snapshot.objective = 'Leve os insumos até a estação PREPARO.';
+          this.snapshot.objective = 'Leve os insumos até a bancada de PREPARO.';
           this.snapshot.message = 'Insumos coletados.';
           this.emitState();
         }
         break;
       case 'bringRaw':
-        if (this.distanceTo(505, 1140) < 62) this.startProcessing();
+        if (this.distanceTo(SPOTS.processor.x, SPOTS.processor.y) < 62) this.startProcessing();
         break;
       case 'ready':
-        if (this.distanceTo(505, 1140) < 62) {
-          this.carrying = 'product';
+        if (this.distanceTo(SPOTS.processor.x, SPOTS.processor.y) < 62) {
+          this.setCarry('product');
           this.snapshot.action = 'deliver';
           this.snapshot.objective = `Leve ${this.business.starterProduct} ao BALCÃO.`;
           this.snapshot.message = 'Produto pronto em mãos.';
@@ -385,10 +629,10 @@ export class LaranjalScene extends Phaser.Scene {
         }
         break;
       case 'deliver':
-        if (this.distanceTo(610, 1055) < 72) this.deliverOrder();
+        if (this.distanceTo(SPOTS.counter.x, SPOTS.counter.y) < 72) this.deliverOrder();
         break;
       case 'collectPayment':
-        if (this.distanceTo(610, 1160) < 66) this.collectPayment();
+        if (this.distanceTo(SPOTS.cash.x, SPOTS.cash.y) < 66) this.collectPayment();
         break;
       default:
         break;
@@ -398,7 +642,7 @@ export class LaranjalScene extends Phaser.Scene {
   private startProcessing() {
     if (this.snapshot.action !== 'bringRaw') return;
 
-    this.carrying = null;
+    this.setCarry(null);
     this.processingStartedAt = this.time.now;
     this.processingDuration = this.getEffectiveProductionTime();
     this.snapshot.action = 'processing';
@@ -411,7 +655,7 @@ export class LaranjalScene extends Phaser.Scene {
   private deliverOrder() {
     const customer = this.customers.shift();
     if (!customer) {
-      this.carrying = null;
+      this.setCarry(null);
       this.snapshot.action = 'free';
       this.snapshot.objective = 'Aguarde o próximo cliente.';
       this.snapshot.message = 'Não há cliente aguardando agora.';
@@ -419,43 +663,57 @@ export class LaranjalScene extends Phaser.Scene {
       return;
     }
 
-    this.carrying = null;
+    this.setCarry(null);
     this.snapshot.queue = this.customers.length;
+
+    this.showFeedback(customer.container.x, customer.container.y - 125, 'ÓTIMO!', '#3fae63dd');
+    this.spawnPayment(customer.container.x, customer.container.y - 20);
 
     this.tweens.add({
       targets: customer.container,
       alpha: 0,
-      x: 780,
-      duration: 500,
+      x: 790,
+      duration: 700,
+      delay: 180,
       ease: 'Sine.easeIn',
       onComplete: () => customer.container.destroy(true),
     });
 
-    this.spawnPayment();
     this.snapshot.action = 'collectPayment';
     this.snapshot.objective = 'Recolha o pagamento no CAIXA.';
-    this.snapshot.message = `${this.business.starterProduct} entregue. O cliente pagou.`;
+    this.snapshot.message = `${this.business.starterProduct} entregue. O cliente gostou!`;
     this.refreshQueueVisual();
     this.emitState();
   }
 
-  private spawnPayment() {
+  private spawnPayment(fromX: number, fromY: number) {
     this.paymentCoin?.destroy(true);
-    const coin = this.add.circle(0, 0, 24, 0xffd23f).setStrokeStyle(5, 0xb77716);
+    const coin = this.add.circle(0, 0, 23, 0xffd23f).setStrokeStyle(5, 0xb77716);
     const symbol = this.add.text(0, 0, '¢', {
       fontFamily: 'system-ui, sans-serif',
-      fontSize: '24px',
+      fontSize: '23px',
       fontStyle: 'bold',
       color: '#7a4a00',
     }).setOrigin(0.5);
-    this.paymentCoin = this.add.container(610, 1115, [coin, symbol]).setDepth(12);
+    this.paymentCoin = this.add.container(fromX, fromY, [coin, symbol]).setDepth(45);
+
     this.tweens.add({
       targets: this.paymentCoin,
-      y: 1098,
-      yoyo: true,
-      repeat: -1,
-      duration: 430,
-      ease: 'Sine.easeInOut',
+      x: SPOTS.cash.x,
+      y: SPOTS.cash.y - 48,
+      scale: 1.08,
+      duration: 620,
+      ease: 'Back.easeOut',
+      onComplete: () => {
+        if (!this.paymentCoin) return;
+        this.tweens.add({
+          targets: this.paymentCoin,
+          y: SPOTS.cash.y - 62,
+          yoyo: true,
+          repeat: -1,
+          duration: 430,
+        });
+      },
     });
   }
 
@@ -469,12 +727,14 @@ export class LaranjalScene extends Phaser.Scene {
       this.tweens.add({
         targets: coin,
         alpha: 0,
-        scale: 1.7,
-        duration: 280,
+        y: coin.y - 48,
+        scale: 1.6,
+        duration: 300,
         onComplete: () => coin.destroy(true),
       });
     }
 
+    this.showFeedback(SPOTS.cash.x, SPOTS.cash.y - 92, `+${this.business.saleValue}`, '#3f9d55ee');
     this.snapshot.cash += this.business.saleValue;
     this.snapshot.served += 1;
     this.snapshot.canUpgrade = this.snapshot.upgradeLevel === 0 && this.snapshot.cash >= UPGRADE_COST;
@@ -494,6 +754,26 @@ export class LaranjalScene extends Phaser.Scene {
     this.persist();
   }
 
+  private showFeedback(x: number, y: number, text: string, backgroundColor: string) {
+    const feedback = this.add.text(x, y, text, {
+      fontFamily: 'system-ui, sans-serif',
+      fontSize: '18px',
+      fontStyle: 'bold',
+      color: '#ffffff',
+      backgroundColor,
+      padding: { x: 9, y: 5 },
+    }).setOrigin(0.5).setDepth(50);
+
+    this.tweens.add({
+      targets: feedback,
+      y: y - 36,
+      alpha: 0,
+      duration: 850,
+      ease: 'Cubic.easeOut',
+      onComplete: () => feedback.destroy(),
+    });
+  }
+
   private buyUpgrade() {
     if (!this.snapshot.canUpgrade || this.snapshot.upgradeLevel > 0 || this.snapshot.cash < UPGRADE_COST) return;
 
@@ -502,6 +782,17 @@ export class LaranjalScene extends Phaser.Scene {
     this.snapshot.businessLevel = 2;
     this.snapshot.canUpgrade = false;
     this.snapshot.message = 'Melhoria instalada: preparo 20% mais rápido.';
+
+    const burst = this.add.circle(SPOTS.upgrade.x, SPOTS.upgrade.y, 42, 0xffffff, 0)
+      .setStrokeStyle(8, 0xffdf67, 0.95)
+      .setDepth(40);
+    this.tweens.add({
+      targets: burst,
+      scale: 2.2,
+      alpha: 0,
+      duration: 650,
+      onComplete: () => burst.destroy(),
+    });
 
     if (this.snapshot.action === 'free') {
       this.snapshot.objective = this.customers.length > 0
@@ -521,8 +812,17 @@ export class LaranjalScene extends Phaser.Scene {
       if (customer.tutorial) continue;
 
       const elapsed = this.time.now - customer.arrivedAt;
-      if (elapsed > 24000) customer.body.setFillStyle(0xe15b4e);
-      else if (elapsed > 16000) customer.body.setFillStyle(0xf0a33a);
+      const ratio = Phaser.Math.Clamp(1 - elapsed / baseLimit, 0, 1);
+      customer.patience.width = 72 * ratio;
+
+      if (ratio < 0.28) {
+        customer.patience.setFillStyle(0xe15b4e);
+        customer.body.setFillStyle(0xd55a52);
+      } else if (ratio < 0.55) {
+        customer.patience.setFillStyle(0xf0a33a);
+      } else {
+        customer.patience.setFillStyle(0x55b86a);
+      }
 
       const isCurrentOrder = index === 0 && ['processing', 'ready', 'deliver'].includes(this.snapshot.action);
       if (elapsed > baseLimit && !isCurrentOrder) this.abandonCustomer(index);
@@ -533,11 +833,12 @@ export class LaranjalScene extends Phaser.Scene {
     const [customer] = this.customers.splice(index, 1);
     if (!customer) return;
 
+    this.showFeedback(customer.container.x, customer.container.y - 115, 'Demorou...', '#c54b43dd');
     this.tweens.add({
       targets: customer.container,
       alpha: 0,
       x: -90,
-      duration: 420,
+      duration: 520,
       onComplete: () => customer.container.destroy(true),
     });
 
@@ -545,7 +846,7 @@ export class LaranjalScene extends Phaser.Scene {
     this.snapshot.message = 'Um cliente desistiu da espera. A venda foi perdida.';
 
     if (this.customers.length === 0 && (this.snapshot.action === 'collectRaw' || this.snapshot.action === 'bringRaw')) {
-      this.carrying = null;
+      this.setCarry(null);
       this.snapshot.action = 'free';
       this.snapshot.objective = 'Aguarde o próximo cliente na orla.';
     }
@@ -556,33 +857,33 @@ export class LaranjalScene extends Phaser.Scene {
 
   private reflowQueue() {
     this.customers.forEach((customer, index) => {
-      const x = 115 + index * 105;
-      this.tweens.add({ targets: customer.container, x, duration: 240 });
+      const x = 105 + index * 122;
+      this.tweens.add({ targets: customer.container, x, duration: 260 });
     });
     this.snapshot.queue = this.customers.length;
     this.refreshQueueVisual();
   }
 
   private refreshQueueVisual() {
-    this.queueLabel?.setText(`Fila: ${this.customers.length}/${MAX_QUEUE}`);
+    this.queueLabel?.setText(`Fila ${this.customers.length}/${MAX_QUEUE}`);
   }
 
   private refreshUpgradeVisual() {
     if (!this.upgradePad || !this.upgradeLabel) return;
 
     if (this.snapshot.upgradeLevel > 0) {
-      this.upgradePad.setFillStyle(0x52a85b, 0.92);
+      this.upgradePad.setFillStyle(0x4fa75b, 0.94);
       this.upgradeLabel.setText('MELHORIA ✓\nPreparo +20%');
       return;
     }
 
     if (this.snapshot.canUpgrade) {
-      this.upgradePad.setFillStyle(0x6f56c7, 0.95);
+      this.upgradePad.setFillStyle(0x7659cf, 0.96);
       this.upgradeLabel.setText(`MELHORIA\n${UPGRADE_COST} moedas`);
       return;
     }
 
-    this.upgradePad.setFillStyle(0x9aa9b0, 0.75);
+    this.upgradePad.setFillStyle(0x98a5a9, 0.86);
     this.upgradeLabel.setText(`MELHORIA\n${UPGRADE_COST} moedas`);
   }
 
@@ -595,6 +896,13 @@ export class LaranjalScene extends Phaser.Scene {
   private distanceTo(x: number, y: number) {
     if (!this.player) return Number.POSITIVE_INFINITY;
     return Phaser.Math.Distance.Between(this.player.x, this.player.y, x, y);
+  }
+
+  private shade(color: number, factor: number) {
+    const r = Math.round(((color >> 16) & 0xff) * factor);
+    const g = Math.round(((color >> 8) & 0xff) * factor);
+    const b = Math.round((color & 0xff) * factor);
+    return (r << 16) | (g << 8) | b;
   }
 
   private loadSave() {
@@ -651,6 +959,7 @@ export class LaranjalScene extends Phaser.Scene {
   }
 
   private emitState() {
+    this.refreshActionHalo();
     window.dispatchEvent(new CustomEvent<GameSnapshot>(GAME_STATE_EVENT, { detail: { ...this.snapshot } }));
   }
 
@@ -661,7 +970,7 @@ export class LaranjalScene extends Phaser.Scene {
     this.customers = [];
     this.paymentCoin?.destroy(true);
     this.paymentCoin = undefined;
-    this.carrying = null;
+    this.setCarry(null);
     this.snapshot = { ...initialSnapshot };
     this.emitState();
   }
